@@ -1,0 +1,70 @@
+import = ["/home/larvasei/.config/alacritty/catppuccin-mocha.toml"]
+
+[cursor.style]
+shape = "Beam"
+
+[cursor.vi_mode_style]
+shape = "Block"
+
+[env]
+TERM = "alacritty"
+
+[font]
+size = 11
+
+[font.normal]
+family = "VictorMono Nerd Font"
+style = "Semi-Bold"
+
+[[keyboard.bindings]]
+action = "ScrollPageUp"
+key = "K"
+mods = "Shift|Control"
+
+[[keyboard.bindings]]
+action = "ScrollPageDown"
+key = "J"
+mods = "Shift|Control"
+
+[[keyboard.bindings]]
+action = "SearchHistoryPrevious"
+key = "P"
+mode = "Search"
+mods = "Control"
+
+[[keyboard.bindings]]
+action = "SearchHistoryNext"
+key = "N"
+mode = "Search"
+mods = "Control"
+
+[[keyboard.bindings]]
+action = "Paste"
+key = "Paste"
+
+[[keyboard.bindings]]
+action = "Copy"
+key = "Copy"
+
+[[mouse.bindings]]
+action = "ExpandSelection"
+mouse = "Right"
+
+[[mouse.bindings]]
+action = "PasteSelection"
+mode = "~Vi"
+mouse = "Middle"
+
+[shell]
+args = ["--login"]
+program = "/usr/bin/fish"
+
+[window]
+dynamic_padding = false
+dynamic_title = true
+decorations = "Full"
+
+[window.padding]
+x = 14
+y = 14
+

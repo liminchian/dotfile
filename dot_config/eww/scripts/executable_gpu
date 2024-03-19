@@ -1,26 +1,16 @@
 #!/usr/bin/python3
 import subprocess
+import sys
+import re
 
 
-def get_nvidia_usage():
-    result = subprocess.run(
-        ["nvidia-smi", "-q", "-g", "0", "-d", "UTILIZATION"],
-        stdout=subprocess.PIPE,
-    )
-    return int(
-        list(
-            filter(
-                lambda line: str(line).startswith("Gpu:"),
-                map(
-                    lambda line: str(line).strip().replace(" ", ""),
-                    result.stdout.decode().splitlines(),
-                ),
-            )
-        )[0]
-        .split(":")[-1]
-        .replace("%", "")
-    )
+command_result = subprocess.run(
+    ["nvidia-smi", "-q", "-g", "0", "-d", "UTILIZATION"],
+    stdout=subprocess.PIPE
+)
+splitlined = command_result.stdout.decode().splitlines()
+striped = [s.replace(" ", "") for s in splitlined]
+find_gpu_line = list(filter(lambda line: line.startswith("Gpu:"), striped)).pop(0)
+get_gpu_percentage = re.search(r"Gpu:(\d*)%", find_gpu_line)
 
-
-if __name__ == "__main__":
-    print(get_nvidia_usage())
+sys.stdout.write(get_gpu_percentage.group(1) if get_gpu_percentage else "-")

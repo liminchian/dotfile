@@ -7,7 +7,6 @@ if status --is-login
     set -gx LANG zh_TW.UTF-8
     
     set -gx QT_WAYLAND_DISABLE_WINDOWDECORATION 1
-    set -gx MOZ_ENABLE_WAYLAND 1
     set -gx GDK_BACKEND wayland
     set -gx CLUTER_BACKEND wayland
     set -gx QT_QPA_PLATFORM wayland

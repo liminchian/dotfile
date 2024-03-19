@@ -1,93 +1,96 @@
 local plugins = {
-	{ "elkowar/yuck.vim", lazy = false },
+  { "elkowar/yuck.vim", lazy = false },
 
-	{
-		"neovim/nvim-lspconfig",
-		config = function()
-			require("nvchad.configs.lspconfig").defaults()
-			require("configs.lspconfig")
-		end,
-		dependencies = {
-			{
-				"folke/neoconf.nvim",
-				cmd = "Neoconf",
-			},
-		},
-	},
+  {
+    "neovim/nvim-lspconfig",
+    config = function()
+      require("nvchad.configs.lspconfig").defaults()
+      require("configs.lspconfig")
+    end,
+    dependencies = {
+      {
+        "folke/neoconf.nvim",
+        cmd = "Neoconf",
+        config = function()
+          require("neoconf").setup({})
+        end,
+      },
+    },
+  },
 
-	{
-		"williamboman/mason.nvim",
-		opts = {
-			ensure_installed = {
-				-- lua stuff
-				"lua-language-server",
-				"stylua",
+  {
+    "williamboman/mason.nvim",
+    lazy = true,
+    opts = {
+      ensure_installed = {
+        -- lua stuff
+        "lua-language-server",
+        "stylua",
 
-				-- web dev stuff
-				"css-lsp",
-				"tailwindcss-language-server",
-				"rustywind",
-				"html-lsp",
-				"typescript-language-server",
-				"deno",
-				"prettier",
+        -- web dev stuff
+        "css-lsp",
+        "tailwindcss-language-server",
+        "rustywind",
+        "html-lsp",
+        "typescript-language-server",
+        "deno",
+        "prettier",
 
-				-- rust
-				"rust-analyzer",
+        -- rust
+        "rust-analyzer",
 
-				-- python
-				"pyright",
-				"black",
-				"mypy",
-				"ruff",
-				"isort",
+        -- python
+        "pyright",
+        "black",
+        "mypy",
+        "ruff",
+        "isort",
 
-				-- general
-				"taplo",
-				"json-lsp",
-				"yamlfmt",
-			},
-		},
-	},
+        -- general
+        "taplo",
+        "yamlfmt",
+      },
+    },
+  },
 
-	{
-		"nvim-treesitter/nvim-treesitter",
-		opts = {
-			ensure_installed = {
-				-- defaults
-				"vim",
-				"lua",
-				"vimdoc",
+  {
+    "nvim-treesitter/nvim-treesitter",
+    opts = {
+      ensure_installed = {
+        -- defaults
+        "vim",
+        "lua",
+        "vimdoc",
 
-				-- web dev
-				"html",
-				"css",
-				"javascript",
-				"typescript",
-				"tsx",
+        -- web dev
+        "html",
+        "css",
+        "javascript",
+        "typescript",
+        "tsx",
 
-				-- low level
-				"c",
-				"zig",
+        -- low level
+        "c",
+        "zig",
 
-				-- document
-				"markdown",
-				"markdown_inline",
+        -- document
+        "markdown",
+        "markdown_inline",
 
-				-- high level
-				"rust",
-				"python",
+        -- high level
+        "rust",
+        "python",
 
-				-- config
-				"yuck",
-				"rasi",
-				"scss",
-				"toml",
-				"json",
-				"yaml",
-			},
-		},
-	},
+        -- config
+        "yuck",
+        "rasi",
+        "scss",
+        "toml",
+        "json",
+        "yaml",
+      },
+    },
+  },
 }
 
 return plugins

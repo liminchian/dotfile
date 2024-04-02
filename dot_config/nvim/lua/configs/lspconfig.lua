@@ -3,6 +3,10 @@ local configs = require("nvchad.configs.lspconfig")
 local on_attach = configs.on_attach
 local on_init = configs.on_init
 local capabilities = configs.capabilities
+capabilities.textDocument.foldInRange = {
+	dynamicRegistration = false,
+	lineFoldingOnly = true,
+}
 
 local lspconfig = require("lspconfig")
 local servers =
@@ -15,6 +19,12 @@ for _, lsp in ipairs(servers) do
 		capabilities = capabilities,
 	})
 end
+
+require("ufo").setup({
+	provider_selector = function(bufnr, filetype, buftype)
+		return { "treesitter", "indent" }
+	end,
+})
 
 lspconfig.rust_analyzer.setup({
 	on_attach = function(client, bufnr)

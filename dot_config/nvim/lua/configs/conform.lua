@@ -1,16 +1,17 @@
 local options = {
-  lsp_fallback = true,
+	lsp_fallback = true,
 
-  formatters_by_ft = {
-    rust = { "rustfmt", "rustywind" },
+	formatters_by_ft = {
+		rust = { "rustfmt", "rustywind" },
+		python = { "ruff" },
 
-    -- neovim
-    lua = { "stylua" },
+		-- neovim
+		lua = { "stylua" },
 
-    -- general
-    json = { "prettier" },
-    yaml = { "yamlfmt" },
-  },
+		-- general
+		json = { "prettier" },
+		yaml = { "yamlfmt" },
+	},
 }
 
 require("conform").setup(options)

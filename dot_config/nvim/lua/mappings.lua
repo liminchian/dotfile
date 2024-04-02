@@ -7,7 +7,15 @@ local map = vim.keymap.set
 map("n", ";", ":", { desc = "CMD enter command mode" })
 
 map("n", "<leader>fm", function()
-  require("conform").format()
+	require("conform").format()
 end, { desc = "File Format with conform" })
+
+map("n", "zR", function()
+	require("ufo").openAllFolds()
+end, { desc = "Open All Folds" })
+
+map("n", "zM", function()
+	require("ufo").closeAllFolds()
+end, { desc = "Close All Folds" })
 
 map("i", "jk", "<ESC>", { desc = "Escape insert mode" })

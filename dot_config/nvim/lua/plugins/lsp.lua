@@ -41,10 +41,8 @@ local plugins = {
 
 				-- python
 				"pyright",
-				"black",
 				"mypy",
 				"ruff",
-				"isort",
 
 				-- general
 				"taplo",

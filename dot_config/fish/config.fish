@@ -15,9 +15,11 @@ if status --is-login
     set -gx DESKTOP_SESSION Hyprland
     set -gx AUTOJUMP_PATH $HOME/.autojump/share/autojump/autojump.fish
 
+    set -gx GLFW_IM_MODULE wayland 
     set -gx QT_IM_MODULE fcitx
     set -gx SDL_IM_MODULE fcitx
-    set -gx GLFW_IM_MODULE ibus
+    set -gx INPUT_METHOD fcitx
+    set -gx XMODIFIERS @im fcitx
     
     set -gx HYPRLAND_LOG_WLR 1
     set -gx SAL_USE_VCLPLUGIN gtk3 

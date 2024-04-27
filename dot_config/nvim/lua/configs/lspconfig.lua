@@ -3,10 +3,12 @@ local configs = require("nvchad.configs.lspconfig")
 local on_attach = configs.on_attach
 local on_init = configs.on_init
 local capabilities = configs.capabilities
+
 capabilities.textDocument.foldInRange = {
 	dynamicRegistration = false,
 	lineFoldingOnly = true,
 }
+
 local handler = function(virtText, lnum, endLnum, width, truncate)
 	local newVirtText = {}
 	local suffix = (" 󰁂 %d "):format(endLnum - lnum)
@@ -56,7 +58,7 @@ require("ufo").setup({
 
 lspconfig.rust_analyzer.setup({
 	on_attach = function(client, bufnr)
-		vim.lsp.inlay_hint.enable(bufnr, true)
+		vim.lsp.inlay_hint.enable(true)
 		configs.on_attach(client, bufnr)
 	end,
 	capabilities = capabilities,

@@ -10,7 +10,7 @@ shape = "Block"
 TERM = "alacritty"
 
 [font]
-size = 11
+size = 12
 
 [font.normal]
 family = "VictorMono Nerd Font"

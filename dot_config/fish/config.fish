@@ -16,7 +16,7 @@ if status --is-login
     set -gx AUTOJUMP_PATH $HOME/.autojump/share/autojump/autojump.fish
 
     set -gx GLFW_IM_MODULE wayland 
-    set -gx QT_IM_MODULE fcitx
+    set -gx QT_IM_MODULE "wayland;fcitx;ibus"
     set -gx SDL_IM_MODULE fcitx
     set -gx INPUT_METHOD fcitx
     set -gx XMODIFIERS @im fcitx

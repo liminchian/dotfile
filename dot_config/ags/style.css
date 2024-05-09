@@ -20,6 +20,7 @@ button:hover {
 
 label {
     font-weight: bold;
+    font-size: 12px;
 }
 
 .workspaces button.focused {

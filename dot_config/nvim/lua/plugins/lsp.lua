@@ -47,6 +47,7 @@ local plugins = {
 				-- general
 				"taplo",
 				"yamlfmt",
+				"json-lsp",
 			},
 		},
 	},

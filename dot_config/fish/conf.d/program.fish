@@ -4,4 +4,4 @@ set -gx JUPYTERLAB_DIR $HOME/.local/share/jupyter/lab
 set -gx SKIM_DEFAULT_OPTIONS "--ansi --regex"
 set -gx NGROK_TOKEN "2QbXwu68z52pvZPA5QQT4hgOQw5_rcZBQoYjVqS6EBN7by2B"
 
-fish_add_path ~/.local/bin ~/.local/share ~/.local/bin/scripts ~/.cargo/bin /public/llama.cpp
+fish_add_path ~/.local/bin ~/.local/share ~/.local/bin/scripts ~/.cargo/bin

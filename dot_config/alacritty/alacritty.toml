@@ -1,4 +1,4 @@
-import = ["/home/larvasei/.config/alacritty/catppuccin-mocha.toml"]
+import = ["/home/sei/.config/alacritty/catppuccin-mocha.toml"]
 
 [cursor.style]
 shape = "Beam"

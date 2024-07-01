@@ -3,8 +3,8 @@ if status is-interactive
 end
 
 if status --is-login
-  if test -z "$DISPLAY" && test "$(tty)" = "/dev/tty1"
-    set -gx LANG zh_TW.UTF-8
+  if test -z "$DISPLAY" && test "$(tty)" = "/dev/tty2"
+    set -gx LANG zh_TW.UTF8
 
     set -gx QT_WAYLAND_DISABLE_WINDOWDECORATION 1
     set -gx GDK_BACKEND wayland
@@ -20,11 +20,7 @@ if status --is-login
     set -gx SDL_IM_MODULE fcitx
     set -gx INPUT_METHOD fcitx
     set -gx XMODIFIERS @im fcitx
-
-    set -gx HYPRLAND_LOG_WLR 1
     set -gx SAL_USE_VCLPLUGIN gtk3
-
-    exec Hyprland
   end
 end
 

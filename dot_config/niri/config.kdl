@@ -13,7 +13,7 @@ input {
             // options "grp:win_space_toggle,compose:ralt,ctrl:nocaps"
         }
 
-        repeat-delay 300
+        repeat-delay 200
         repeat-rate 30
     }
 
@@ -47,7 +47,7 @@ output "HDMI-A-1" {
 }
 
 layout {
-    gaps 16
+    gaps 30
 
     center-focused-column "never"
 
@@ -72,15 +72,15 @@ layout {
     focus-ring {
         // off
 
-        width 2
-        active-color "#be95ff"
-        inactive-color "#585b70"
+        width 3
+        active-color "#8aadf4"
+        inactive-color "#24273a"
     }
 
     border {
         off
 
-        width 2
+        width 3
         active-color "#ffc87f"
         inactive-color "#505050"
     }
@@ -100,8 +100,7 @@ layout {
 // Add lines like this to spawn processes at startup.
 // Note that running niri as a session supports xdg-desktop-autostart,
 // which may be more convenient to use.
-// spawn-at-startup "nm-applet --indicator"
-// spawn-at-startup "wlsunset"
+spawn-at-startup "wlsunset"
 spawn-at-startup "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
 spawn-at-startup "swaync"
 spawn-at-startup "udiskie"
@@ -109,7 +108,6 @@ spawn-at-startup "fcitx5" "-dr"
 spawn-at-startup "swayosd-server"
 spawn-at-startup "wl-clip-persist" "-c" "both"
 spawn-at-startup "swww-daemon"
-spawn-at-startup "swww" "img" "~/Downloads/dune___new_hardcover_edition_wallpaper_by_jadentracyn_ddp0wto.jpg"
 
 // You can override environment variables for processes spawned by niri.
 environment {
@@ -125,7 +123,7 @@ environment {
 cursor {
     // Change the theme and size of the cursor as well as set the
     // `XCURSOR_THEME` and `XCURSOR_SIZE` env variables.
-    xcursor-theme "catppuccin-frappe-blue"
+    xcursor-theme ""
     xcursor-size 24
 }
 
@@ -158,7 +156,7 @@ animations {
 }
 
 window-rule {
-    geometry-corner-radius 8
+    geometry-corner-radius 10
     clip-to-geometry true
 }
 

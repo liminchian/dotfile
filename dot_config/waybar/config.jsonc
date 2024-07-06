@@ -32,8 +32,8 @@
     "rotate": 270
   },
   "wireplumber": {
-    "format": "<span font_desc='RobotoMono Nerd Font Bold Italic' color='#be95ff'>vol</span> {volume}%",
-    "format-muted": "<span font_desc='RobotoMono Nerd Font Bold Italic' color='#be95ff'>vol</span> muted",
+    "format": "<span font_desc='RobotoMono Nerd Font Bold Italic' color='#be95ff'> </span> {volume}%",
+    "format-muted": "<span font_desc='RobotoMono Nerd Font Bold Italic' color='#be95ff'>󰝟 </span> muted",
     "tooltip": false,
     "rotate": 270
   },

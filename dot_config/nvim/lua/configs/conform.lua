@@ -3,7 +3,7 @@ local options = {
 
 	formatters_by_ft = {
 		rust = { "rustfmt", "rustywind" },
-		python = { "ruff" },
+		python = { "ruff_format", "ruff_organize_imports", "ruff_fix" },
 
 		-- neovim
 		lua = { "stylua" },

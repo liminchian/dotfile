@@ -5,8 +5,37 @@ window#waybar {
   color: @overlay2;
 }
 
-window#waybar > * {
-  margin-right: 8px;
+#taskbar {
+  border-radius: 9999px;
+  background-color: @mantle;
+  border: 1px solid @surface2;
+  margin-bottom: 8px;
+}
+
+#taskbar button {
+  background-color: @mantle;
+  border-radius: 0px;
+}
+
+#taskbar button.active {
+  background-color: @surface0;
+}
+
+#taskbar.empty {
+  background-color: transparent;
+  border: none;
+}
+
+#taskbar button:first-child {
+    border-radius: 99px 0 0 99px;
+}
+
+#taskbar button:last-child {
+    border-radius: 0 99px 99px 0;
+}
+
+#taskbar button:first-child:last-child {
+    border-radius: 99px;
 }
 
 #tray {
@@ -15,6 +44,7 @@ window#waybar > * {
   background-color: @mantle;
   border-radius: 9999px;
   border: 1px solid @surface2;
+  margin-right: 8px;
 }
 
 #tray > .passive {
@@ -25,10 +55,18 @@ window#waybar > * {
   -gtk-icon-effect: highlight;
 }
 
-box.modules-right {
+#mpd.paused,
+#mpd.stopped {
+  color: @subtext1;
+  font-style: italic;
+}
+
+window#waybar.right box.modules-right {
+  margin-top: 8px;
   background-color: @mantle;
   border-radius: 9999px;
   border: 1px solid @surface2;
+  margin-right: 8px;
 }
 
 #wireplumber {

@@ -14,10 +14,10 @@ if status --is-login
     set -gx XCURSOR_SIZE 24
     set -gx DESKTOP_SESSION Hyprland
     set -gx AUTOJUMP_PATH $HOME/.autojump/share/autojump/autojump.fish
-    set -gx ELECTRON_OZONE_PLATFORM_HINT wayland
+    set -gx MOZ_ENABLE_WAYLAND 1
 
     set -gx GLFW_IM_MODULE wayland
-    set -gx QT_IM_MODULE "wayland;fcitx;ibus"
+    set -gx QT_IM_MODULE fcitx
     set -gx SDL_IM_MODULE fcitx
     set -gx INPUT_METHOD fcitx
     set -gx XMODIFIERS @im fcitx

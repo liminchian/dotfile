@@ -26,11 +26,11 @@ input {
 
     mouse {
         // natural-scroll
-        // accel-speed 0.2
-        // accel-profile "flat"
+        accel-speed -0.2
+        accel-profile "flat"
     }
 
-    warp-mouse-to-focus
+    // warp-mouse-to-focus
 
     focus-follows-mouse
 }
@@ -43,7 +43,7 @@ output "HDMI-A-1" {
 }
 
 layout {
-    gaps 30
+    gaps 16
 
     center-focused-column "never"
 
@@ -68,7 +68,7 @@ layout {
     focus-ring {
         // off
 
-        width 3
+        width 4
         active-color "#8aadf4"
         inactive-color "#24273a"
     }
@@ -76,9 +76,9 @@ layout {
     border {
         off
 
-        width 3
-        active-color "#ffc87f"
-        inactive-color "#505050"
+        width 4
+        active-gradient from="#f00f" to="#0f05" angle=45 in="oklch longer hue"
+        inactive-color "#24273a"
     }
     // Struts shrink the area occupied by windows, similarly to layer-shell panels.
     // You can think of them as a kind of outer gaps. They are set in logical pixels.
@@ -86,24 +86,24 @@ layout {
     // Top and bottom struts will simply add outer gaps in addition to the area occupied by
     // layer-shell panels and regular gaps.
     struts {
-        // left 64
-        // right 64
-        // top 64
-        // bottom 64
+        left 80
+        right 80
+        top 10
+        bottom 20
     }
 }
 
 // Add lines like this to spawn processes at startup.
 // Note that running niri as a session supports xdg-desktop-autostart,
 // which may be more convenient to use.
-// spawn-at-startup "wl-clip-persist" "-c" "both"
 spawn-at-startup "wlsunset"
 spawn-at-startup "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
 spawn-at-startup "swaync"
 spawn-at-startup "udiskie"
-spawn-at-startup "xwayland-run" "--" "fcitx5" "-rd"
+spawn-at-startup "fcitx5" "-rd"
 spawn-at-startup "swayosd-server"
 spawn-at-startup "swww-daemon"
+spawn-at-startup "wl-paste" "--watch" "clapboard" "store"
 
 // You can override environment variables for processes spawned by niri.
 environment {
@@ -112,6 +112,7 @@ environment {
     NVD_BACKEND "direct"
     GBM_BACKEND "nvidia-drm"
     __GLX_VENDOR_LIBRARY_NAME "nvidia"
+    LIBVA_DRIVER_NAME "nvidia"
 
     // Remove a variable by using null as the value:
     // DISPLAY null
@@ -150,6 +151,51 @@ animations {
 
     // Slow down all animations by this factor. Values below 1 speed them up instead.
     // slowdown 3.0
+    window-close {
+        duration-ms 200
+        curve "linear"
+
+        custom-shader r"
+            // Example: make the window 'fall down' with slight rotation.
+            vec4 close_color(vec3 coords_geo, vec3 size_geo) {
+                // For this shader, set animation curve to linear for best results.
+
+                // Simulate an accelerated fall: square the (linear) progress.
+                float progress = niri_clamped_progress * niri_clamped_progress;
+
+                // Get our rotation pivot point coordinates at the bottom center of the window.
+                vec2 coords = (coords_geo.xy - vec2(0.5, 1.0)) * size_geo.xy;
+
+                // Move the window down to simulate a fall.
+                coords.y -= progress * 200.0;
+
+                // Randomize rotation direction and maximum angle.
+                float random = (niri_random_seed - 0.5) / 2.0;
+                random = sign(random) - random;
+                float max_angle = 0.05 * random;
+
+                // Rotate the window around our pivot point.
+                float angle = progress * max_angle;
+                mat2 rotate = mat2(cos(angle), -sin(angle), sin(angle), cos(angle));
+                coords = rotate * coords;
+
+                // Transform the coordinates back.
+                coords_geo = vec3(coords / size_geo.xy + vec2(0.5, 1.0), 1.0);
+
+                // Sample the window texture.
+                vec3 coords_tex = niri_geo_to_tex * coords_geo;
+                vec4 color = texture2D(niri_tex, coords_tex.st);
+
+                // Multiply by alpha to fade out.
+                return color * (1.0 - niri_clamped_progress);
+            }
+        "
+    }
+}
+
+window-rule {
+  min-height 400
+  min-width 420
 }
 
 window-rule {
@@ -158,21 +204,72 @@ window-rule {
 }
 
 window-rule {
-    match app-id=r#"^mpv$"#
-
-    open-maximized true
+    match app-id="alacritty"
+    default-column-width { proportion 0.5; }
 }
 
 window-rule {
-    match app-id=r#"^Spotify$"#
-
-    open-maximized true
+    match app-id="org.gnome.Characters"
+    default-column-width { proportion 0.4; }
 }
 
 window-rule {
-    match app-id=r#"^zed$"#
+    match app-id="firefox"
+    default-column-width { fixed 1425; }
+    draw-border-with-background true    
+}
 
-    open-maximized true
+window-rule {
+    match app-id="com.spotify.Client"
+    default-column-width { fixed 1425; }
+    draw-border-with-background true    
+}
+
+window-rule {
+    match app-id="zen-alpha"
+    default-column-width { fixed 1425; }
+    draw-border-with-background true    
+}
+
+window-rule {
+    match app-id="anytype"
+    default-column-width { fixed 1425; }
+    draw-border-with-background true    
+}
+
+window-rule {
+    match app-id="io.github.kukuruzka165.materialgram"
+    default-column-width { fixed 440; }
+}
+
+window-rule {
+    match app-id="vesktop"
+    default-column-width { fixed 920; }
+}
+
+window-rule {
+    match app-id="cursor"
+    default-column-width { fixed 920; }
+}
+
+window-rule {
+    match app-id="vlc"
+    default-column-width { fixed 920; }
+}
+
+window-rule {
+    match app-id="pcmanfm"
+    default-column-width { proportion 0.75; }
+}
+
+window-rule {
+    match title="Friends List" app-id="steam"
+    default-column-width { fixed 340; }
+}
+
+window-rule {
+    match app-id="Waydroid"
+    default-column-width { fixed 1256; }
 }
 
 binds {
@@ -198,17 +295,13 @@ binds {
     Mod+Tab { spawn "togglebg"; }
 
     // Check https://cgit.freedesktop.org/xorg/proto/x11proto/tree/XF86keysym.h
-    XF86AudioMute         { spawn "swayosd-client" "--output-volume=mute-toggle"; }
-    XF86AudioRaiseVolume  { spawn "swayosd-client" "--output-volume=raise"; }
-    XF86AudioLowerVolume  { spawn "swayosd-client" "--output-volume=lower"; }
-    XF86AudioMicMute      { spawn "swayosd-client" "--input-volume=mute-toggle"; }
-    XF86MonBrightnessUp   { spawn "swayosd-client" "--brightness=raise"; }
-    XF86MonBrightnessDown { spawn "swayosd-client" "--brightness=lower"; }
-    XF86AudioMedia        { spawn "playerctl" "play-pause"; }
-    XF86AudioPlay         { spawn "playerctl" "play-pause"; }
-    XF86AudioStop         { spawn "playerctl" "stop"; }
-    XF86AudioPrev         { spawn "playerctl" "previous"; }
-    XF86AudioNext         { spawn "playerctl" "next"; }
+    XF86AudioRaiseVolume allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "0.1+"; }
+    XF86AudioLowerVolume allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "0.1-"; }
+    XF86AudioMute        allow-when-locked=true { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SINK@" "toggle"; }
+    XF86AudioMicMute     allow-when-locked=true { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SOURCE@" "toggle"; }
+    XF86AudioNext        allow-when-locked=true { spawn "playerctl" "next"; }
+    XF86AudioPrev        allow-when-locked=true { spawn "playerctl" "previous"; }
+    XF86AudioPlay        allow-when-locked=true { spawn "playerctl" "play-pause"; }
 
     Mod+Q { close-window; }
 

@@ -10,6 +10,7 @@ local options = {
 
 		-- general
 		json = { "prettier" },
+		jsonc = { "deno_fmt" },
 		yaml = { "yamlfmt" },
 	},
 }

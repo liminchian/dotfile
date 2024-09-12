@@ -39,7 +39,7 @@ end
 
 local lspconfig = require("lspconfig")
 local servers =
-	{ "html", "cssls", "tailwindcss", "tsserver", "clangd", "pyright", "rust_analyzer", "taplo", "lua_ls", "jsonls" }
+	{ "html", "cssls", "tailwindcss", "ts_ls", "clangd", "pyright", "rust_analyzer", "taplo", "lua_ls", "jsonls" }
 
 for _, lsp in ipairs(servers) do
 	lspconfig[lsp].setup({

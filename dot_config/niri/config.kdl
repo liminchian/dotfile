@@ -248,7 +248,7 @@ window-rule {
 }
 
 window-rule {
-    match app-id="cursor"
+    match app-id="dev.zed.Zed"
     default-column-width { fixed 920; }
 }
 

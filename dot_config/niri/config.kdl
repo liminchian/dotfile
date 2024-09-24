@@ -26,7 +26,7 @@ input {
 
     mouse {
         // natural-scroll
-        accel-speed -0.2
+        accel-speed -0.5
         accel-profile "flat"
     }
 
@@ -206,6 +206,11 @@ window-rule {
 window-rule {
     match app-id="alacritty"
     default-column-width { proportion 0.5; }
+}
+
+window-rule {
+    match app-id="steam_app_*"
+    open-fullscreen true
 }
 
 window-rule {

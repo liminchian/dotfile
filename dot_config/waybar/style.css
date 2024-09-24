@@ -1,5 +1,9 @@
 @import "mocha.css";
 
+* {
+  min-height: 0;
+}
+
 window#waybar {
   background-color: transparent;
   color: @overlay2;
@@ -8,7 +12,7 @@ window#waybar {
 #taskbar {
   border-radius: 9999px;
   background-color: @mantle;
-  border: 1px solid @surface2;
+  border: 3px solid @blue;
   margin-bottom: 8px;
 }
 
@@ -43,7 +47,7 @@ window#waybar {
   margin-bottom: 8px;
   background-color: @mantle;
   border-radius: 9999px;
-  border: 1px solid @surface2;
+  border: 3px solid @blue;
   margin-right: 8px;
 }
 
@@ -55,18 +59,32 @@ window#waybar {
   -gtk-icon-effect: highlight;
 }
 
-#mpd.paused,
-#mpd.stopped {
-  color: @subtext1;
-  font-style: italic;
-}
-
-window#waybar.right box.modules-right {
+window#waybar.right box.modules-center {
   margin-top: 8px;
   background-color: @mantle;
   border-radius: 9999px;
-  border: 1px solid @surface2;
+  border: 3px solid @blue;
   margin-right: 8px;
+}
+
+#workspaces {
+  margin-top: 8px;
+  background-color: @mantle;
+  border: 3px solid @blue;
+  border-radius: 99px;
+  margin-right: 8px;
+}
+
+#workspaces button:first-child {
+    border-radius: 99px 99px 0 0;
+}
+
+#workspaces button:last-child {
+    border-radius: 0 0 99px 99px;
+}
+
+#workspaces button:first-child:last-child {
+    border-radius: 99px;
 }
 
 #wireplumber {

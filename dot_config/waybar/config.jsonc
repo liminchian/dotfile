@@ -3,7 +3,7 @@
     "position": "bottom",
     "layer": "top",
     "width": 8,
-    "height": 8,
+    "height": 50,
     "spacing": 8,
     "modules-center": ["wlr/taskbar"],
     "wlr/taskbar": {
@@ -24,7 +24,7 @@
     "spacing": 8,
     "modules-left": ["tray"],
     "modules-center": ["wireplumber", "clock"],
-    "modules-right": ["niri/workspaces"],
+    // "modules-right": ["niri/workspaces"],
     "tray": {
       "icon-size": 14,
       "spacing": 4

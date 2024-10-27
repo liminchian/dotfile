@@ -71,7 +71,7 @@ window#waybar.right box.modules-center {
   margin-top: 8px;
   background-color: @mantle;
   border: 3px solid @blue;
-  border-radius: 99px;
+  border-radius: 9999px;
   margin-right: 8px;
 }
 

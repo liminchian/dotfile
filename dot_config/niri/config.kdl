@@ -122,7 +122,7 @@ cursor {
     // Change the theme and size of the cursor as well as set the
     // `XCURSOR_THEME` and `XCURSOR_SIZE` env variables.
     xcursor-theme ""
-    xcursor-size 24
+    xcursor-size 20
 }
 
 // Uncomment this line to ask the clients to omit their client-side decorations if possible.
@@ -225,7 +225,7 @@ window-rule {
 }
 
 window-rule {
-    match app-id="com.spotify.Client"
+    match app-id="Spotify"
     default-column-width { fixed 1425; }
     draw-border-with-background true    
 }

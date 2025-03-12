@@ -1,0 +1,36 @@
+sort=-time
+layer=overlay
+background-color=#05051D
+width=240
+height=120
+border-size=2
+border-color=#88c0d0
+border-radius=6
+icons=1
+max-icon-size=48
+default-timeout=5000
+ignore-timeout=1
+font=Roboto 11
+
+[urgency=low]
+border-color=#cccccc
+
+[urgency=normal]
+border-color=#d08770
+
+[urgency=high]
+border-color=#bf616a
+default-timeout=0
+
+[category=mpd]
+default-timeout=2000
+group-by=category
+
+[app-name="pomobar"]
+anchor=top-center
+width=240
+height=240
+font=Roboto 16
+max-icon-size=64
+icon-location=top
+

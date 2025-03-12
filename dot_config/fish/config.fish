@@ -1,5 +1,8 @@
 if status is-interactive
     # Commands to run in interactive sessions can go here
+    starship init fish | source
+    atuin init fish | source
+    pokemon-colorscripts --no-title -r 1,3,6
 end
 
 if status --is-login
@@ -22,6 +25,7 @@ if status --is-login
     set -gx INPUT_METHOD fcitx
     set -gx XMODIFIERS @im fcitx
     set -gx SAL_USE_VCLPLUGIN gtk3
+    set -gx OZONE_PLATFORM wayland
   end
 end
 
@@ -36,5 +40,3 @@ set fish_cursor_replace_one underscore
 set fish_cursor_visual      block
 set -g fish_escape_delay_ms    100
 
-starship init fish | source
-pokemon-colorscripts --no-title -r 1,3,6

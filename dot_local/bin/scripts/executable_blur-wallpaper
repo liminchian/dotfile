@@ -1,0 +1,17 @@
+#!/usr/bin/bash
+
+# 定義輸出檔案的路徑
+OUTPUT_FILE="$HOME/.cache/blurred_wallpaper.png"
+
+# 檢查輸出檔案是否存在
+if [ -f "$OUTPUT_FILE" ]; then
+  echo "The blurred wallpaper already exists. Skipping generation."
+else
+  # 如果檔案不存在，則生成模糊壁紙
+  magick \
+    $HOME/Pictures/Wallpapers/late_afternoon_by_bisbiswas_dellazd.jpg \
+    -resize 75% \
+    "$OUTPUT_FILE"
+
+  echo "Success! Blurred the wallpaper!"
+fi

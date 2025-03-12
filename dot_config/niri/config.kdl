@@ -37,13 +37,22 @@ input {
 
 output "HDMI-A-1" {
     mode "1920x1080@143.912"
+    variable-refresh-rate on-demand=true
+    scale 1.00
+    transform "normal"
+    position x=0 y=0
+}
+
+output "DP-1" {
+    mode "1920x1080@143.912"
+    variable-refresh-rate on-demand=true
     scale 1.00
     transform "normal"
     position x=0 y=0
 }
 
 layout {
-    gaps 16
+    gaps 20
 
     center-focused-column "never"
 
@@ -61,25 +70,35 @@ layout {
     }
 
     // You can change the default width of the new windows.
-    default-column-width { proportion 0.5; }
+    default-column-width { proportion 0.4; }
     // If you leave the brackets empty, the windows themselves will decide their initial width.
     // default-column-width {}
 
     focus-ring {
-        // off
+        off
 
-        width 4
-        active-color "#8aadf4"
-        inactive-color "#24273a"
+        width 2
+        active-color "#017E7E"
+        inactive-color "#0C3135"
+        // active-gradient from="#0082c8" to="#26D0CE" angle=45
+        // inactive-gradient from="#505050" to="#808080" angle=45
+        // inactive-color "#24273a"
     }
 
     border {
-        off
+        // off
 
-        width 4
-        active-gradient from="#f00f" to="#0f05" angle=45 in="oklch longer hue"
-        inactive-color "#24273a"
+        width 2
+        active-color "#FFFFFF"
+        inactive-color "#333448"
     }
+
+    insert-hint {
+        // off
+        color "#ffc87f80"
+        // gradient from="#ffbb6680" to="#ffc88080" angle=45 relative-to="workspace-view"
+    }
+
     // Struts shrink the area occupied by windows, similarly to layer-shell panels.
     // You can think of them as a kind of outer gaps. They are set in logical pixels.
     // Left and right struts will cause the next window to the side to always be visible.
@@ -98,12 +117,14 @@ layout {
 // which may be more convenient to use.
 spawn-at-startup "wlsunset"
 spawn-at-startup "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
-spawn-at-startup "swaync"
+spawn-at-startup "mako"
 spawn-at-startup "udiskie"
 spawn-at-startup "fcitx5" "-rd"
 spawn-at-startup "swayosd-server"
 spawn-at-startup "swww-daemon"
 spawn-at-startup "wl-paste" "--watch" "clapboard" "store"
+spawn-at-startup "blur-wallpaper"
+spawn-at-startup "pomobar"
 
 // You can override environment variables for processes spawned by niri.
 environment {
@@ -121,8 +142,10 @@ environment {
 cursor {
     // Change the theme and size of the cursor as well as set the
     // `XCURSOR_THEME` and `XCURSOR_SIZE` env variables.
-    xcursor-theme ""
+    xcursor-theme "catppuccin-frappe-blue-cursors"
     xcursor-size 20
+    hide-when-typing
+    // hide-after-inactive-ms 1000
 }
 
 // Uncomment this line to ask the clients to omit their client-side decorations if possible.
@@ -151,6 +174,7 @@ animations {
 
     // Slow down all animations by this factor. Values below 1 speed them up instead.
     // slowdown 3.0
+
     window-close {
         duration-ms 200
         curve "linear"
@@ -199,7 +223,7 @@ window-rule {
 }
 
 window-rule {
-    geometry-corner-radius 10
+    geometry-corner-radius 6
     clip-to-geometry true
 }
 
@@ -225,13 +249,31 @@ window-rule {
 }
 
 window-rule {
-    match app-id="Spotify"
+    match app-id="spotube"
     default-column-width { fixed 1425; }
     draw-border-with-background true    
 }
 
 window-rule {
-    match app-id="zen-alpha"
+    match app-id="zen"
+    default-column-width { fixed 1425; }
+    draw-border-with-background true    
+}
+
+window-rule {
+    match app-id="rustdesk"
+    default-column-width { fixed 1425; }
+    draw-border-with-background true    
+}
+
+window-rule {
+    match app-id="sniffnet"
+    default-column-width { fixed 1425; }
+    draw-border-with-background true    
+}
+
+window-rule {
+    match app-id="^figma.*$"
     default-column-width { fixed 1425; }
     draw-border-with-background true    
 }
@@ -245,6 +287,12 @@ window-rule {
 window-rule {
     match app-id="io.github.kukuruzka165.materialgram"
     default-column-width { fixed 440; }
+
+}
+
+window-rule {
+    match app-id="obsidian"
+    default-column-width { fixed 570; }
 }
 
 window-rule {
@@ -263,19 +311,52 @@ window-rule {
 }
 
 window-rule {
-    match app-id="pcmanfm"
-    default-column-width { proportion 0.75; }
+    match app-id="Waydroid"
+    default-column-width { fixed 1256; }
+}
+
+// Floating window-rules
+
+window-rule {
+    match title="Open Folder"
+    open-floating true
+}
+
+window-rule {
+    match app-id="zenity"
+    open-floating true
 }
 
 window-rule {
     match title="Friends List" app-id="steam"
-    default-column-width { fixed 340; }
+    open-floating true
 }
 
 window-rule {
-    match app-id="Waydroid"
-    default-column-width { fixed 1256; }
+    match app-id="gcr-prompter"
+    open-floating true
 }
+
+window-rule {
+    match title="vesktop" app-id="vesktop"
+    open-floating true
+}
+
+window-rule {
+    match title="^.{0}$"
+    open-floating true
+}
+
+window-rule {
+    match app-id="Vesktop"
+    open-floating true
+}
+
+window-rule {
+    match app-id="imv"
+    open-floating true
+}
+
 
 binds {
     // Keys consist of modifiers separated by + signs, followed by an XKB key name
@@ -333,8 +414,11 @@ binds {
     Mod+Shift+L    { move-column-right; }
 
     Mod+I       { focus-workspace-down; }
-    Mod+O       { focus-workspace-up; }
 
+    Mod+Shift+C { spawn "sh" "-c" "env DISPLAY=:0 xsel -ob | wl-copy"; }
+    Mod+Shift+V { spawn "sh" "-c" "wl-paste -n | env DISPLAY=:0 xsel -ib"; }
+
+    Mod+O       { focus-workspace-up; }
     Mod+Shift+I { move-workspace-down; }
     Mod+Shift+O { move-workspace-up; }
 

@@ -1,8 +1,6 @@
 abbr svim "sudo -E nvim"
 abbr fcd "cd \$(sk)"
 abbr fopen "bat \$(sk)"
-abbr fcmd "which {}"
-abbr gitui "gitui -t mocha.ron"
 
 # Alternative Original Linux Command
 abbr ack "sk -i -c 'rg --color always --line-number "{}"'"

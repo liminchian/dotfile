@@ -23,7 +23,7 @@ if status --is-login
     set -gx QT_IM_MODULE fcitx
     set -gx SDL_IM_MODULE fcitx
     set -gx INPUT_METHOD fcitx
-    set -gx XMODIFIERS @im fcitx
+    set -gx XMODIFIERS fcitx
     set -gx SAL_USE_VCLPLUGIN gtk3
     set -gx OZONE_PLATFORM wayland
   end

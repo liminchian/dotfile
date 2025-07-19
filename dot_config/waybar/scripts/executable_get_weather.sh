@@ -9,4 +9,4 @@ if [[ $? == 0 ]] then
         exit
     fi
 fi
-echo "{\"text\":\"error\", \"tooltip\":\"error\"}"
+echo "{\"text\":\"error: $1\", \"tooltip\":\"error\"}"

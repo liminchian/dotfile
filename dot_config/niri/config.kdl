@@ -223,6 +223,11 @@ window-rule {
 }
 
 window-rule {
+    match app-id="explorer.exe"
+    open-floating false
+}
+
+window-rule {
     geometry-corner-radius 6
     clip-to-geometry true
 }
@@ -243,45 +248,57 @@ window-rule {
 }
 
 window-rule {
-    match app-id="firefox"
+    match app-id="obsidian"
     default-column-width { fixed 1425; }
-    draw-border-with-background true    
+    draw-border-with-background true
 }
 
 window-rule {
-    match app-id="spotube"
+    match app-id="firefox"
     default-column-width { fixed 1425; }
-    draw-border-with-background true    
+    draw-border-with-background true
+}
+
+window-rule {
+    match app-id="solaar"
+    default-column-width { fixed 1425; }
+    draw-border-with-background true
+}
+
+window-rule {
+    match app-id="[Ss]potify"
+    default-column-width { fixed 1425; }
+    draw-border-with-background true
 }
 
 window-rule {
     match app-id="zen"
     default-column-width { fixed 1425; }
-    draw-border-with-background true    
+    draw-border-with-background true
 }
 
 window-rule {
     match app-id="rustdesk"
     default-column-width { fixed 1425; }
-    draw-border-with-background true    
+    draw-border-with-background true
 }
 
 window-rule {
     match app-id="sniffnet"
     default-column-width { fixed 1425; }
-    draw-border-with-background true    
+    draw-border-with-background true
 }
 
 window-rule {
     match app-id="^figma.*$"
     default-column-width { fixed 1425; }
-    draw-border-with-background true    
+    draw-border-with-background true
 }
 
 window-rule {
     match app-id="anytype"
     default-column-width { fixed 1425; }
-    draw-border-with-background true    
+    draw-border-with-background true
 }
 
 window-rule {
@@ -297,12 +314,12 @@ window-rule {
 
 window-rule {
     match app-id="vesktop"
-    default-column-width { fixed 920; }
+    default-column-width { fixed 1256; }
 }
 
 window-rule {
     match app-id="dev.zed.Zed"
-    default-column-width { fixed 920; }
+    default-column-width { fixed 1256; }
 }
 
 window-rule {
@@ -315,6 +332,11 @@ window-rule {
     default-column-width { fixed 1256; }
 }
 
+window-rule {
+    match app-id="bottles"
+    default-column-width { fixed 1256; }
+}
+
 // Floating window-rules
 
 window-rule {
@@ -324,6 +346,11 @@ window-rule {
 
 window-rule {
     match app-id="zenity"
+    open-floating true
+}
+
+window-rule {
+    match app-id="XEyes"
     open-floating true
 }
 
@@ -358,6 +385,11 @@ window-rule {
 }
 
 
+overview {
+    zoom 0.55
+}
+
+
 binds {
     // Keys consist of modifiers separated by + signs, followed by an XKB key name
     // in the end. To find an XKB name for a particular key, you may use a program
@@ -378,7 +410,7 @@ binds {
     Mod+D { spawn "anyrun"; }
     Mod+X { spawn "wlogout"; }
 
-    Mod+Tab { spawn "togglebg"; }
+    Mod+Space { toggle-overview; }
 
     // Check https://cgit.freedesktop.org/xorg/proto/x11proto/tree/XF86keysym.h
     XF86AudioRaiseVolume allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "0.1+"; }

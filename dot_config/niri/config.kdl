@@ -308,8 +308,13 @@ window-rule {
 }
 
 window-rule {
+    match app-id="org.gnome.Nautilus"
+    default-column-width { fixed 1256; }
+}
+
+window-rule {
     match app-id="obsidian"
-    default-column-width { fixed 570; }
+    default-column-width { fixed 1256; }
 }
 
 window-rule {

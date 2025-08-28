@@ -220,6 +220,7 @@ animations {
 window-rule {
   min-height 400
   min-width 420
+  draw-border-with-background false
 }
 
 window-rule {

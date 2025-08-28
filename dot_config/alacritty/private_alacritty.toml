@@ -12,7 +12,7 @@ size = 12
 
 [font.normal]
 family = "VictorMono Nerd Font"
-style = "Semi-Bold"
+style = "Medium"
 
 [[keyboard.bindings]]
 action = "ScrollPageUp"

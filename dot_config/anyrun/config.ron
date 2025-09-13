@@ -9,9 +9,30 @@ Config(
   layer: Overlay,
   ignore_exclusive_zones: false,
   show_results_immediately: false,
-  close_on_click: false,
+  close_on_click: true,
   plugins: [
     "libapplications.so",
-    "libwebsearch.so"
+    "libniri_focus.so",
+  ],
+
+  keybinds: [
+    Keybind(
+      key: "Return",
+      action: Select, 
+    ),
+    Keybind(
+      ctrl: true,
+      key: "p",
+      action: Up, 
+    ),
+    Keybind(
+      ctrl: true,
+      key: "n",
+      action: Down, 
+    ),
+    Keybind(
+      key: "Escape",
+      action: Close, 
+    ),
   ],
 )

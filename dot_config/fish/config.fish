@@ -26,6 +26,7 @@ if status --is-login
     set -gx XMODIFIERS fcitx
     set -gx SAL_USE_VCLPLUGIN gtk3
     set -gx OZONE_PLATFORM wayland
+    set -gx GSK_RENDERER ngl
   end
 end
 

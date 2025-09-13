@@ -1,42 +1,68 @@
-window#window {
-  background-color: transparent;
+window {
+  background: transparent;
+  font-size: 12px;
+  font-family: "Roboto,Noto Sans CJK";
+  font-weight: 400;
 }
 
-box#main {
-  padding: 8px;
-  border: 1px solid @borders;
-  border-radius: 16px;
-  background-color: @theme_base_color;
-}
-
-entry#entry {
+box.main {
+  padding: 0px 0px 0px 5px;
+  margin: 10px;
   border-radius: 10px;
-  box-shadow: none;
+  border: 2px solid rgb(137, 180, 250);
+  background-color: rgb(30, 30, 46);
+  box-shadow: 0 0 5px black;
 }
 
-list#main {
-  background-color: transparent;
+
+text {
+  min-height: 30px;
+  padding: 5px;
+  border-radius: 5px;
+  color: rgb(205, 214, 244);
 }
 
-list#main > row {
-  padding: 0;
-}
-list#main > row:hover {
-  box-shadow: none;
-}
-
-row#match {
+.matches {
+  background-color: rgb(30, 30, 46);
   border-radius: 10px;
-  padding: 6px 8px;
-  margin-top: 8px;
 }
 
-label#match-title {
-  font-weight: bold;
+box.plugin:first-child {
+  margin-top: 5px;
 }
 
-label#match-desc {
-  font-size: 0.75rem;
-  font-weight: bold;
-  opacity: 0.8;
+box.plugin.info {
+  min-width: 200px;
+}
+
+list.plugin {
+  background-color: rgba(0, 0, 0, 0);
+}
+
+label.match.description {
+  font-size: 14px;
+}
+
+label.plugin.info {
+  font-size: 14px;
+}
+
+.match {
+  background: transparent;
+}
+
+.match:selected {
+  background-color: rgba(137, 180, 250, 0.2);
+  font-weight: 600;
+  animation: fade 0.1s linear;
+}
+
+@keyframes fade {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
 }

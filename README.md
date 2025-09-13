@@ -1,7 +1,5 @@
 # Dot Files
 
----
-
 使用 `chezmoi` 管理的設定檔(dotfile)，環境設定如下：
 
 1. Operating system: Arch Linux

@@ -1,2 +1,2 @@
-bind \cr _atuin_search
-bind -M insert \cr _atuin_search
+bind ctrl-r _atuin_search
+bind -M insert ctrl-r _atuin_search

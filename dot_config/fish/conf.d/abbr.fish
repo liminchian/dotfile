@@ -15,8 +15,8 @@ abbr rm "rm -i"
 abbr mkdir "mkdir -p"
 
 # Postgres
-abbr postgres "sudo -iu postgres"
-abbr psql "psql -U postgres"
+# abbr postgres "sudo -iu postgres"
+# abbr psql "psql -U postgres"
 
 # kitty things
 # abbr icat "kitty +kitten icat"

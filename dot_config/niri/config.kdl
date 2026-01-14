@@ -52,9 +52,7 @@ output "DP-1" {
 }
 
 layout {
-    gaps 20
-
-    center-focused-column "never"
+    center-focused-column "on-overflow"
 
     // You can customize the widths that "switch-preset-column-width" (Mod+R) toggles between.
     preset-column-widths {
@@ -107,8 +105,8 @@ layout {
     struts {
         left 80
         right 80
-        top 10
-        bottom 20
+        top -5
+        bottom -5
     }
 }
 
@@ -125,6 +123,8 @@ spawn-at-startup "swww-daemon"
 spawn-at-startup "wl-paste" "--watch" "clapboard" "store"
 spawn-at-startup "blur-wallpaper"
 spawn-at-startup "pomobar"
+spawn-at-startup "elephant"
+spawn-at-startup "walker" "--gapplication-service"
 
 // You can override environment variables for processes spawned by niri.
 environment {
@@ -413,7 +413,7 @@ binds {
 
     // Suggested binds for running programs: terminal, app launcher, screen locker.
     Mod+Return { spawn "alacritty"; }
-    Mod+D { spawn "anyrun"; }
+    Mod+D { spawn "walker"; }
     Mod+X { spawn "wlogout"; }
 
     Mod+Space { toggle-overview; }

@@ -36,6 +36,18 @@ return {
     },
   },
 
+  -- GitHub Copilot CLI 當作第二個 agent，用 snacks.terminal 開在右側
+  -- 前置：npm install -g @github/copilot，然後在 copilot 裡執行 /login
+  -- 刻意不裝 copilot.lua：不要 inline completion
+  {
+    "folke/snacks.nvim",
+    opts = {
+      terminal = {
+        win = { position = "right", width = 0.38 },
+      },
+    },
+  },
+
   -- 依目錄存/還原 session（開過的檔案、視窗配置）
   {
     "folke/persistence.nvim",

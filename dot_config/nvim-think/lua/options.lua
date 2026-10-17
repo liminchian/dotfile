@@ -13,5 +13,6 @@ o.wrap = false
 o.signcolumn = "yes"
 o.fillchars = { eob = " " } -- 檔尾不顯示 ~
 
--- Zed 風格的 inlay hints
-vim.lsp.inlay_hint.enable(true)
+-- think 模式不顯示 inlay hints（型別、參數名等提示），保持畫面乾淨
+-- 需要時用 <leader>cl 在目前檔案暫時打開
+vim.lsp.inlay_hint.enable(false)

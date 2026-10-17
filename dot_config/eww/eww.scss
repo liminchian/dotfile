@@ -1,0 +1,150 @@
+$font:  17px;   // 任務文字
+$row:   17px;   // 每行上下留白
+$check: 18px;   // 核取圈直徑
+
+// ── 調色 ─────────────────────────────────────────
+$panel:  rgba(17, 17, 23, 0.80);
+$line:   rgba(255, 255, 255, 0.08);
+$text:   #ece8f0;
+$muted:  rgba(236, 232, 240, 0.52);
+$accent: #e3b5e8;   // 想換色調，只改這一行
+$danger: #ff6b6b;   // 逾期的紅色
+
+// ── 尺寸（想整體再放大或縮小，改這三個）──────────
+$font:  17px;   // 任務文字
+$row:   17px;   // 每行上下留白，越大行距越鬆
+$check: 24px;   // 核取圈直徑
+
+// 重置 GTK 預設主題，之後所有樣式都從零開始
+* {
+  all: unset;
+  font-family: "Inter", "Noto Sans CJK TC", "Noto Sans TC", sans-serif;
+  color: $text;
+}
+
+// ── 面板 ─────────────────────────────────────────
+.todo {
+  background-color: $panel;
+  border: 1px solid $line;
+  border-radius: 22px;
+  padding: 28px 28px 22px 28px;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.45);
+}
+
+// ── 標題 ─────────────────────────────────────────
+.head { margin-bottom: 20px; }
+
+.day {
+  font-size: 60px;
+  font-weight: 200;
+  margin-right: 16px;
+}
+
+.month   { font-size: 18px; font-weight: 600; }
+.weekday { font-size: 15px; color: $muted; margin-top: 2px; }
+.count   { font-size: 14px; color: $muted; }
+
+// ── 清單 ─────────────────────────────────────────
+.list { min-height: 60px; }
+
+.empty {
+  font-size: $font;
+  color: $muted;
+  padding: $row 2px;
+}
+
+.task-row {
+  padding: $row 2px;
+  border-bottom: 1px solid $line;
+  transition: 160ms ease;
+}
+
+.task-title {
+  font-size: $font;
+  color: $text;
+  transition: 160ms ease;
+}
+
+// 核取圈：平常是空心圈，hover 浮出 ✓，按下填滿
+.check {
+  min-width: $check;
+  min-height: $check;
+  margin-right: 16px;
+  border: 2px solid $muted;
+  border-radius: 999px;
+  transition: 160ms ease;
+}
+
+.check-mark {
+  font-size: 14px;
+  font-weight: 700;
+  color: transparent;
+  transition: 160ms ease;
+}
+
+.task-row:hover .check {
+  border-color: $accent;
+  background-color: rgba($accent, 0.16);
+}
+
+.task-row:hover .check-mark {
+  color: $accent;
+}
+
+.task-row:active .check {
+  background-color: $accent;
+}
+
+.task-row:active .check-mark {
+  color: #1a1a22;
+}
+
+.task-row:hover .task-title {
+  color: #ffffff;
+}
+
+// ── 到期日 ───────────────────────────────────────
+.due {
+  font-size: 14px;
+  color: $muted;
+  margin-left: 12px;
+}
+
+.due.today   { color: $accent; }
+.due.overdue { color: $danger; font-weight: 600; }
+
+// 逾期：標題與核取圈也用紅色（hover 規則要單獨覆蓋，否則會被白色蓋掉）
+.task-title.overdue,
+.task-row:hover .task-title.overdue {
+  color: $danger;
+}
+
+.check.overdue {
+  border-color: rgba($danger, 0.75);
+}
+
+// ── 新增 ─────────────────────────────────────────
+.add-row { margin-top: 16px; }
+
+.add-plus {
+  font-size: 24px;
+  font-weight: 300;
+  color: $accent;
+  margin-right: 16px;
+}
+
+.add-input {
+  font-size: $font;
+  padding: 8px 0;
+  border-bottom: 1px solid transparent;
+  caret-color: $accent;
+  transition: 160ms ease;
+}
+
+.add-input:focus {
+  border-bottom-color: $accent;
+}
+
+.add-input selection {
+  background-color: rgba($accent, 0.35);
+}

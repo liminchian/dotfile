@@ -1,0 +1,52 @@
+;; 資料來源：gtasks daemon 常駐，清單有變動就輸出一行 JSON
+(deflisten tasks :initial "[]"
+  `$HOME/.local/bin/gtasks daemon`)
+
+(defpoll day     :interval "10m" `date +%-d`)
+(defpoll month   :interval "10m" `date +%B`)
+(defpoll weekday :interval "10m" `date +%A`)
+
+;; 輸入框內容，用來在送出後清空
+(defvar newtask "")
+
+(defwindow todo
+  :monitor 0
+  :geometry (geometry :x "24px" :width "320px" :height "60%" :anchor "left center")
+  :stacking "bg"
+  :focusable "ondemand"
+  :exclusive false
+  (box :class "todo" :orientation "v" :space-evenly false
+
+    ;; 標題：大日期 + 月份/星期 + 待辦數量
+    (box :class "head" :orientation "h" :space-evenly false :valign "start"
+      (label :class "day" :text day)
+      (box :class "date-meta" :orientation "v" :space-evenly false :valign "center"
+        (label :class "month" :halign "start" :text month)
+        (label :class "weekday" :halign "start" :text weekday))
+      (label :class "count" :hexpand true :halign "end" :valign "center"
+        :text "${jq(tasks, 'length')} 項待辦"))
+
+    ;; 任務清單
+    (scroll :class "list" :vexpand true :hscroll false :vscroll true
+      (box :orientation "v" :space-evenly false :valign "start"
+        (label :class "empty" :halign "start"
+          :visible {jq(tasks, 'length') == 0}
+          :text "沒有待辦事項")
+        (for t in tasks
+          (eventbox :class "task-row" :cursor "pointer" :timeout "5s"
+            :onclick "$HOME/.local/bin/gtasks done ${t.id}"
+            (box :orientation "h" :space-evenly false
+              (box :class "check ${t.overdue ? 'overdue' : ''}" :valign "center" :halign "center"
+                (label :class "check-mark" :text "✓"))
+              (label :class "task-title ${t.overdue ? 'overdue' : ''}" :xalign 0 :hexpand true :wrap true
+                :text "${t.title}")
+              (label :class "due ${t.overdue ? 'overdue' : (t.today ? 'today' : '')}"
+                :valign "center"
+                :visible {t.due != ""}
+                :text "${t.due}"))))))
+
+    ;; 新增
+    (box :class "add-row" :orientation "h" :space-evenly false
+      (label :class "add-plus" :text "+")
+      (input :class "add-input" :hexpand true :value newtask :timeout "5s"
+        :onaccept "printf '%s' '{}' | $HOME/.local/bin/gtasks add -; eww update newtask=' '; eww update newtask=''"))))

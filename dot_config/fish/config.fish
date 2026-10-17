@@ -39,3 +39,6 @@ set -gx AUTO_PATH $HOME/.autojump/share/autojump/autojump.fish
 if test -f "$AUTO_PATH"
     source "$AUTO_PATH"
 end
+
+alias think 'NVIM_APPNAME=nvim-think neovide --wayland_app_id=think'
+alias pair  'NVIM_APPNAME=nvim-pair neovide --wayland_app_id=pair'

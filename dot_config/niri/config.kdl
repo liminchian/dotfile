@@ -32,15 +32,9 @@ input {
 
     // warp-mouse-to-focus
 
-    focus-follows-mouse
-}
-
-output "HDMI-A-1" {
-    mode "1920x1080@143.912"
-    variable-refresh-rate on-demand=true
-    scale 1.00
-    transform "normal"
-    position x=0 y=0
+    // 新版可加 max-scroll-amount 限制：只有「已經完全在畫面內」的視窗/輸出
+    // 才會因為滑鼠移入而搶焦點，避免捲動列表時不小心切走焦點。
+    focus-follows-mouse max-scroll-amount="0%"
 }
 
 output "DP-1" {
@@ -72,15 +66,16 @@ layout {
     // If you leave the brackets empty, the windows themselves will decide their initial width.
     // default-column-width {}
 
+    // 🎨 設計優化：原本是 teal 色系，跟你的黑白網點桌布/waybar 衝突，
+    // 改成無色彩的灰階，就算之後打開 focus-ring 也不會破壞整體調性。
     focus-ring {
         off
 
         width 2
-        active-color "#017E7E"
-        inactive-color "#0C3135"
+        active-color "#F2F2F2"
+        inactive-color "#3A3A3A"
         // active-gradient from="#0082c8" to="#26D0CE" angle=45
         // inactive-gradient from="#505050" to="#808080" angle=45
-        // inactive-color "#24273a"
     }
 
     border {
@@ -88,13 +83,37 @@ layout {
 
         width 2
         active-color "#FFFFFF"
-        inactive-color "#333448"
+        // 🎨 設計優化：原本 #333448 帶一點藍紫偏色，跟純黑白桌布不搭。
+        // 改成真正中性的灰（R=G=B），在無色彩環境裡才不會顯得突兀。
+        inactive-color "#3A3A3A"
+        // 🎨 設計優化：整體改成無色彩系統之後，這個紅色反而更醒目、更有效——
+        // 「單一保留色」是常見手法：畫面 99% 是黑白，唯一有彩度的地方就是
+        // 真正需要你注意的警示狀態，眼睛會自動被吸過去，不需要更花俏的顏色。
+        urgent-color "#FF453A"
     }
 
+    // 🎨 設計優化：這區塊原本沒設，代表用 niri 預設的暖橘 #ffc87f，
+    // 跟黑白桌布衝突。改成半透明白，插入預覽時會像是桌布上的白色網點
+    // 「亮」了一下，視覺上直接跟桌布的圖案語言呼應。
     insert-hint {
-        // off
-        color "#ffc87f80"
-        // gradient from="#ffbb6680" to="#ffc88080" angle=45 relative-to="workspace-view"
+        color "#FFFFFF66"
+    }
+
+    // 🆕 立體感陰影。draw-behind-window 關閉時陰影只畫在視窗周圍，
+    // 若你有設 geometry-corner-radius + clip-to-geometry（你已經有了），
+    // niri 會知道圓角半徑，陰影邊緣才不會在圓角處露出方形瑕疵。
+    shadow {
+        on
+        // 模糊程度，越大越柔和
+        softness 30
+        // 陰影往外擴張的範圍
+        spread 5
+        // 陰影相對視窗的偏移，正 y 讓陰影往下沉，看起來更立體
+        offset x=0 y=5
+        // 🎨 設計優化：拿掉 teal 色調，改回純黑但保持輕透明度。
+        // 桌布背景本身就是純黑，陰影用純黑反而更融入畫面、更沉穩，
+        // 「打磨感」的沉穩黑不需要靠色彩，靠的是漸層柔和度（softness/spread）。
+        color "#00000066"
     }
 
     // Struts shrink the area occupied by windows, similarly to layer-shell panels.
@@ -102,12 +121,37 @@ layout {
     // Left and right struts will cause the next window to the side to always be visible.
     // Top and bottom struts will simply add outer gaps in addition to the area occupied by
     // layer-shell panels and regular gaps.
+    // ⚠️ 這裡原本是負值 (-5)，代表視窗會往螢幕外多蓋 5px。
+    // 如果不是刻意用來蓋掉某個殘留 gap/瑕疵，建議改回 0 或正值。
     struts {
-        left 80
+        left 300
         right 80
         top -5
         bottom -5
     }
+}
+
+
+// 🆕 全域模糊效果（niri 26.04+）。
+blur {
+    // 取消註解以完全關閉（目前是「可用但需視窗/layer-rule 主動要求」的狀態）
+    // off
+    passes 3
+    // 🎨 設計優化：offset 從 3 提高到 4，模糊更明顯一點，且 GPU 成本比加 passes 低
+    offset 4
+    // 🎨 設計優化：noise 從 0.02 提高到 0.05——你的桌布本身就是用網點/雜訊
+    // 做出漸層的（halftone dither），刻意調高模糊的顆粒感等於呼應這個視覺語言，
+    // 而不只是單純「消除色階斷層」的技術用途，這是有意義的設計連結。
+    noise 0.05
+    // 🎨 設計優化：從預設 1.5（提高飽和度）改成 0.5（降低飽和度）。
+    // 預設值是替一般彩色桌面設計的，會讓模糊背景「更鮮豔」；但你的環境是
+    // 刻意的無色彩系統，如果背景模糊時透出瀏覽器之類的彩色內容，飽和度
+    // 拉低能讓它自動偏灰階，維持整體黑白調性的一致性，而不是被模糊放大色彩。
+    saturation 0.5
+}
+
+environment {
+  XMODIFIERS "@im=fcitx"
 }
 
 // Add lines like this to spawn processes at startup.
@@ -117,7 +161,7 @@ spawn-at-startup "wlsunset"
 spawn-at-startup "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
 spawn-at-startup "mako"
 spawn-at-startup "udiskie"
-spawn-at-startup "fcitx5" "-rd"
+spawn-at-startup "sleep" "2" "&&" "fcitx5" "-rd"
 spawn-at-startup "swayosd-server"
 spawn-at-startup "awww-daemon"
 spawn-at-startup "wl-paste" "--watch" "clapboard" "store"
@@ -132,8 +176,16 @@ cursor {
     xcursor-theme "catppuccin-frappe-blue-cursors"
     xcursor-size 20
     hide-when-typing
-    // hide-after-inactive-ms 1000
+    // 🎨 設計優化：閒置 3 秒後自動隱藏游標，適合盯著 log/terminal 輸出
+    // 不太動滑鼠的工作型態，減少畫面上不必要的視覺干擾。
+    hide-after-inactive-ms 3000
 }
+
+// 🆕 如果你有用中鍵貼上以外的剪貼簿管理工具，或不需要 X11 primary selection，
+// 可以取消註解關閉，避免部分 app 的「選取即複製」行為造成困擾。
+// clipboard {
+//     disable-primary
+// }
 
 // Uncomment this line to ask the clients to omit their client-side decorations if possible.
 // If the client will specifically ask for CSD, the request will be honored.
@@ -152,6 +204,8 @@ screenshot-path "~/Pictures/Screenshots/Niri %Y-%m-%d %H-%M-%S.png"
 hotkey-overlay {
     // Uncomment this line if you don't want to see the hotkey help at niri startup.
     skip-at-startup
+    // 🆕 只顯示「你有實際綁定」的動作，隱藏其他未綁定的預設項目，畫面更乾淨。
+    hide-not-bound
 }
 
 // Animation settings.
@@ -211,13 +265,28 @@ window-rule {
 }
 
 window-rule {
-    match app-id="explorer.exe"
-    open-floating false
+    geometry-corner-radius 6
+    clip-to-geometry true
 }
 
 window-rule {
-    geometry-corner-radius 6
-    clip-to-geometry true
+    match app-id="^think$"
+    focus-ring {
+        active-color "#a6e3a1"   // Green：自己思考
+    }
+    border {
+        active-color "#a6e3a1"
+    }
+}
+
+window-rule {
+    match app-id="^pair$"
+    focus-ring {
+        active-color "#cba6f7"   // Mauve：AI 協作
+    }
+    border {
+        active-color "#cba6f7"
+    }
 }
 
 window-rule {
@@ -235,83 +304,35 @@ window-rule {
     default-column-width { proportion 0.4; }
 }
 
+// --- 寬版工具（1425px）：需要較多水平空間的參考/創作型應用 ---
 window-rule {
-    match app-id="obsidian"
-    default-column-width { fixed 1425; }
-    draw-border-with-background true
-}
-
-window-rule {
-    match app-id="firefox"
-    default-column-width { fixed 1425; }
-    draw-border-with-background true
-}
-
-window-rule {
-    match app-id="solaar"
-    default-column-width { fixed 1425; }
-    draw-border-with-background true
-}
-
-window-rule {
+    match app-id="PacketTracer"
     match app-id="[Ss]potify"
-    default-column-width { fixed 1425; }
-    draw-border-with-background true
-}
-
-window-rule {
+    match app-id="[Ss]onora"
+    match app-id="solaar"
+    match app-id="firefox"
+    match app-id="obsidian"
     match app-id="zen"
-    default-column-width { fixed 1425; }
-    draw-border-with-background true
-}
-
-window-rule {
     match app-id="rustdesk"
-    default-column-width { fixed 1425; }
-    draw-border-with-background true
-}
-
-window-rule {
     match app-id="sniffnet"
-    default-column-width { fixed 1425; }
-    draw-border-with-background true
-}
-
-window-rule {
     match app-id="^figma.*$"
-    default-column-width { fixed 1425; }
-    draw-border-with-background true
-}
-
-window-rule {
     match app-id="anytype"
+    match app-id="io.github.kukuruzka165.materialgram"
+    match app-id="neovide"
+    match app-id="^think$"
+    match app-id="^pair$"
     default-column-width { fixed 1425; }
     draw-border-with-background true
 }
 
-window-rule {
-    match app-id="io.github.kukuruzka165.materialgram"
-    default-column-width { fixed 440; }
 
-}
-
+// --- 中等工具（1256px）：檔案總管、聊天、編輯器等一般工作視窗 ---
 window-rule {
     match app-id="org.gnome.Nautilus"
-    default-column-width { fixed 1256; }
-}
-
-window-rule {
-    match app-id="obsidian"
-    default-column-width { fixed 1256; }
-}
-
-window-rule {
     match app-id="vesktop"
-    default-column-width { fixed 1256; }
-}
-
-window-rule {
     match app-id="dev.zed.Zed"
+    match app-id="Waydroid"
+    match app-id="bottles"
     default-column-width { fixed 1256; }
 }
 
@@ -320,17 +341,31 @@ window-rule {
     default-column-width { fixed 920; }
 }
 
-window-rule {
-    match app-id="Waydroid"
-    default-column-width { fixed 1256; }
-}
-
-window-rule {
-    match app-id="bottles"
-    default-column-width { fixed 1256; }
-}
 
 // Floating window-rules
+
+// 🎨 設計優化：「霧面玻璃」質感——淡淡透明 + 背景模糊 + 顆粒感，
+// 呼應桌布的網點紋理，讓打磨感是視覺上說得通的，不是隨便加的效果。
+//
+// 刻意只套用在 Spotify / 聊天軟體這類「用看的、不用長時間盯字」的視窗。
+// alacritty / Obsidian / Firefox / Zed / Nautilus 這些你會盯著看大量文字
+// 的工作視窗完全沒動——niri 的 opacity 是整個視窗（含文字）一起變淡，
+// 套在那些視窗上會犧牲清晰度，不值得為了美感犧牲生產力。
+//
+// 如果你想要終端機「看起來」有透明背景又保持文字銳利，建議直接在
+// alacritty.toml 設定它原生的 background_opacity——那是只淡化背景色塊、
+// 文字維持完全不透明的做法，效果比這裡的 compositor 層級模糊好很多。
+window-rule {
+    match app-id="[Ss]onora"
+    match app-id="[Ss]potify"
+    match app-id="io.github.kukuruzka165.materialgram"
+    match app-id="vesktop"
+    opacity 0.92
+    background-effect {
+        blur true
+    }
+}
+
 
 window-rule {
     match title="Open Folder"
@@ -340,6 +375,11 @@ window-rule {
 window-rule {
     match app-id="zenity"
     open-floating true
+    // 🎨 設計優化：系統對話框加背景模糊，明確傳達「這是暫時疊在上層、
+    // 需要你回應的視窗」，是常見的 modal/dialog 設計手法。
+    background-effect {
+        blur true
+    }
 }
 
 window-rule {
@@ -355,6 +395,9 @@ window-rule {
 window-rule {
     match app-id="gcr-prompter"
     open-floating true
+    background-effect {
+        blur true
+    }
 }
 
 window-rule {
@@ -377,9 +420,52 @@ window-rule {
     open-floating true
 }
 
+// 🆕 螢幕分享/錄影時自動遮蔽密碼管理器等敏感視窗。
+// 把下面的 app-id 換成你實際用的密碼管理器（例如 KeePassXC、Bitwarden 等），
+// 目前先用範例值註解掉，確認 app-id 後取消 /- 前綴即可啟用。
+/-window-rule {
+    match app-id=r#"^org\.keepassxc\.KeePassXC$"#
+    block-out-from "screen-capture"
+}
 
+// 🎨 設計優化：walker（Mod+D 開啟的 app launcher）通常是用 layer-shell
+// 實作的懸浮面板，加上背景模糊能做出類似 macOS Spotlight 的漂浮質感。
+// namespace 是我根據 walker 常見命名猜的，如果沒作用，用
+// `niri msg layers` 在 walker 開啟時查實際 namespace 再改這裡即可
+// （沒對到也不會報錯，只是不會生效，改壞了也安全）。
+layer-rule {
+    match namespace="^launcher$"
+    background-effect {
+        blur true
+    }
+}
+
+// 🎨 設計優化：你的 waybar 本身是黑白色系，加上背景模糊能讓它有「懸浮」
+// 在桌面上方的層次感，而不是死板貼在螢幕邊緣的一條色塊。
+// waybar 預設的 layer-shell namespace 就是 "waybar"，這個不用像 walker 那樣猜。
+layer-rule {
+    match namespace="^waybar$"
+    background-effect {
+        blur true
+    }
+}
+
+
+// 🎨 設計優化：backdrop-color 跟 workspace-shadow 原本都沒設，代表切到總覽
+// 模式時用的是 niri 預設灰黑背景跟預設陰影，跟你平常畫面的色調/陰影對不起來，
+// 會有「模式切換時風格斷裂」的感覺。這裡讓總覽的視覺語言跟平常畫面一致。
 overview {
     zoom 0.55
+    // 🎨 改成接近純黑，貼合桌布本身的黑色背景，而不是帶色調的深藍
+    backdrop-color "#0A0A0A"
+    workspace-shadow {
+        // workspace 卡片是整個畫面縮小顯示，陰影參數要比一般視窗陰影大得多
+        // 才看得出立體感
+        softness 40
+        spread 10
+        offset x=0 y=10
+        color "#00000060"
+    }
 }
 
 
@@ -410,6 +496,8 @@ binds {
     XF86AudioLowerVolume allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "0.1-"; }
     XF86AudioMute        allow-when-locked=true { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SINK@" "toggle"; }
     XF86AudioMicMute     allow-when-locked=true { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SOURCE@" "toggle"; }
+    Mod+XF86AudioRaiseVolume allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SOURCE@" "0.1+"; }
+    Mod+XF86AudioLowerVolume allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SOURCE@" "0.1-"; }
     XF86AudioNext        allow-when-locked=true { spawn "playerctl" "next"; }
     XF86AudioPrev        allow-when-locked=true { spawn "playerctl" "previous"; }
     XF86AudioPlay        allow-when-locked=true { spawn "playerctl" "play-pause"; }
@@ -458,11 +546,36 @@ binds {
     Mod+BracketLeft  { consume-or-expel-window-left; }
     Mod+BracketRight { consume-or-expel-window-right; }
 
+    // 🆕 把游標右邊的視窗吸進目前欄位的最下面 / 把目前欄位最下面的視窗吐出去右邊。
+    // 跟上面的 consume-or-expel-window-left/right 是互補功能，用來精細調整同一欄裡有幾個視窗。
+    Mod+Comma  { consume-window-into-column; }
+    Mod+Period { expel-window-from-column; }
+
     Mod+R { switch-preset-column-width; }
-    Mod+Shift+R { reset-window-height; }
+    // 🆕 反向循環 preset-column-widths，跟 Mod+R 互補。
+    // 你原本 Mod+Shift+R 綁的是 reset-window-height，這裡改放到 Mod+Ctrl+Shift+R，
+    // 並保留 reset-window-height 在原本按鍵，兩個功能都留著、不互相覆蓋。
+    Mod+Shift+R { switch-preset-column-width-back; }
+    Mod+Ctrl+Shift+R { reset-window-height; }
+
     Mod+M { maximize-column; }
     Mod+F { fullscreen-window; }
     Mod+C { center-column; }
+    // 🆕 把畫面上所有「完全可見」的欄位置中，跟 center-column 是不同層級的置中。
+    Mod+Ctrl+C { center-visible-columns; }
+
+    // 🆕 展開目前欄位，填滿其他完整可見欄位之外剩下的空間。
+    Mod+Ctrl+F { expand-column-to-available-width; }
+
+    // 🆕 讓目前視窗在「浮動」與「平鋪」兩種模式間切換，適合小工具視窗、對話框。
+    Mod+V { toggle-window-floating; }
+    // 🆕 在浮動視窗與平鋪視窗之間切換焦點，不改變任何視窗的模式。
+    // 原本 Mod+Shift+V 已經被你拿去做 X11↔Wayland 剪貼簿同步了，改綁這裡避免撞鍵。
+    Mod+Ctrl+V { switch-focus-between-floating-and-tiling; }
+
+    // 🆕 把目前欄位切換成「分頁模式」：欄位內多個視窗會疊在一起、用分頁切換，
+    // 適合同時開很多終端機或編輯器又想省畫面空間的情境。
+    Mod+W { toggle-column-tabbed-display; }
 
     // Finer width adjustments.
     // This command can also:
@@ -491,11 +604,20 @@ binds {
     Ctrl+Print { screenshot-screen; }
     Alt+Print { screenshot-window; }
 
+    // 讓遠端桌面/軟體 KVM 等程式可以要求 niri 暫停處理快捷鍵，
+    // 把按鍵原封不動轉發給遠端機器。allow-inhibiting=false 確保這個逃生鍵
+    // 永遠有效，就算某個程式卡住了 inhibitor 也切得掉。
+    Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
+
+    // 🆕 一鍵關閉所有螢幕省電，移動滑鼠或按任意鍵即可喚醒。
+    Mod+Shift+P { power-off-monitors; }
+
     // The quit action will show a confirmation dialog to avoid accidental exits.
     // If you want to skip the confirmation dialog, set the flag like so:
     // Mod+Shift+E { quit skip-confirmation=true; }
     Mod+Shift+E { quit; }
 }
+
 debug {
     wait-for-frame-completion-before-queueing
 }

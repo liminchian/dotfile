@@ -129,3 +129,8 @@ window#waybar.empty #window {
   padding: 0 8px 0 8px;
   border-radius: 99px;
 }
+
+#custom-headset              { padding: 0 8px; }
+#custom-headset.charging     { color: #a6e3a1; }
+#custom-headset.critical     { color: #f38ba8; }
+#custom-headset.disconnected { opacity: 0.4; }

@@ -1,0 +1,49 @@
+-- 位置：~/.config/nvim-pair/lua/plugins/init.lua
+-- pair 模式：AI 只在這裡
+
+return {
+  {
+    "stevearc/conform.nvim",
+    opts = require "configs.conform",
+  },
+
+  {
+    "neovim/nvim-lspconfig",
+    config = function()
+      require "configs.lspconfig"
+    end,
+  },
+
+  {
+    "olimorris/codecompanion.nvim",
+    cmd = {
+      "CodeCompanion",
+      "CodeCompanionChat",
+      "CodeCompanionActions",
+    },
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-treesitter/nvim-treesitter",
+    },
+    -- 需要環境變數 ANTHROPIC_API_KEY
+    -- 若 codecompanion 版本把 strategies 改名，請依其 README 調整這個 key
+    opts = {
+      strategies = {
+        chat = { adapter = "anthropic" },
+        inline = { adapter = "anthropic" },
+      },
+      display = {
+        chat = {
+          window = { layout = "vertical", position = "right", width = 0.38 },
+        },
+      },
+    },
+  },
+
+  -- 依目錄存/還原 session（開過的檔案、視窗配置）
+  {
+    "folke/persistence.nvim",
+    lazy = false,
+    opts = { need = 1, branch = true },
+  },
+}

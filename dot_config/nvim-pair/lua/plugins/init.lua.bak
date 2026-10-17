@@ -14,28 +14,24 @@ return {
     end,
   },
 
+  -- Claude Code 整合：使用 Claude Pro 訂閱登入，不需要 API key
+  -- 前置：安裝 claude CLI 並執行一次 `claude` 登入 Pro 帳號
+  -- 注意：環境中不要設定 ANTHROPIC_API_KEY，否則會改用 API 計費
   {
-    "olimorris/codecompanion.nvim",
+    "coder/claudecode.nvim",
+    dependencies = { "folke/snacks.nvim" },
     cmd = {
-      "CodeCompanion",
-      "CodeCompanionChat",
-      "CodeCompanionActions",
+      "ClaudeCode",
+      "ClaudeCodeFocus",
+      "ClaudeCodeSend",
+      "ClaudeCodeAdd",
+      "ClaudeCodeDiffAccept",
+      "ClaudeCodeDiffDeny",
     },
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvim-treesitter/nvim-treesitter",
-    },
-    -- 需要環境變數 ANTHROPIC_API_KEY
-    -- 若 codecompanion 版本把 strategies 改名，請依其 README 調整這個 key
     opts = {
-      strategies = {
-        chat = { adapter = "anthropic" },
-        inline = { adapter = "anthropic" },
-      },
-      display = {
-        chat = {
-          window = { layout = "vertical", position = "right", width = 0.38 },
-        },
+      terminal = {
+        split_side = "right",
+        split_width_percentage = 0.38,
       },
     },
   },

@@ -48,14 +48,14 @@ vim.keymap.set("n", "<C-=>", function() scale(1.1) end)
 vim.keymap.set("n", "<C-->", function() scale(1 / 1.1) end)
 vim.keymap.set("n", "<C-0>", function() vim.g.neovide_scale_factor = 1.0 end)
 
--- 輸入法只在 insert / cmdline 啟用，normal mode 不會誤觸 fcitx5
+-- 輸入法只在需要打字的模式啟用：insert、cmdline、terminal（Claude Code 面板）
+-- normal / visual mode 關閉，避免誤觸注音
 vim.g.neovide_input_ime = false
 local ime = vim.api.nvim_create_augroup("ImeInput", { clear = true })
-vim.api.nvim_create_autocmd({ "InsertEnter", "CmdlineEnter" }, {
+vim.api.nvim_create_autocmd({ "ModeChanged", "TermEnter", "TermLeave", "BufEnter" }, {
   group = ime,
-  callback = function() vim.g.neovide_input_ime = true end,
-})
-vim.api.nvim_create_autocmd({ "InsertLeave", "CmdlineLeave" }, {
-  group = ime,
-  callback = function() vim.g.neovide_input_ime = false end,
+  callback = function()
+    local m = vim.api.nvim_get_mode().mode:sub(1, 1)
+    vim.g.neovide_input_ime = (m == "i" or m == "c" or m == "t" or m == "R")
+  end,
 })

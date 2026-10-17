@@ -39,4 +39,11 @@ return {
       },
     },
   },
+
+  -- 依目錄存/還原 session（開過的檔案、視窗配置）
+  {
+    "folke/persistence.nvim",
+    lazy = false,
+    opts = { need = 1, branch = true },
+  },
 }

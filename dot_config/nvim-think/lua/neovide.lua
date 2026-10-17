@@ -6,6 +6,7 @@ if not vim.g.neovide then
 end
 
 -- 字型：需要 Nerd Font 版本，NvChad 的圖示才會正常
+-- VictorMono 的斜體是草寫風格，搭配 chadrc 的斜體註解很好看
 vim.o.guifont = "VictorMono Nerd Font:h12"
 vim.opt.linespace = 4
 

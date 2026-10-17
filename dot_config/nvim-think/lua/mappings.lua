@@ -13,6 +13,9 @@ map("n", "<C-S-p>", "<cmd>Telescope commands<cr>", { desc = "Command palette" })
 -- 程式碼導航與 LSP（Zed 風格，見 zedkeys.lua）
 require("zedkeys").setup()
 
+-- terminal / agent 面板：連按兩次 Ctrl+h/j/k/l 跳出並換視窗（見 termnav.lua）
+require("termnav").setup()
+
 -- 專注模式
 map("n", "<leader>z", "<cmd>ZenMode<cr>", { desc = "Zen mode" })
 

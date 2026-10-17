@@ -10,6 +10,9 @@ map("n", "<C-S-f>", "<cmd>Telescope live_grep<cr>", { desc = "Search in project"
 map("n", "<C-b>", "<cmd>NvimTreeToggle<cr>", { desc = "Toggle file tree" })
 map("n", "<C-S-p>", "<cmd>Telescope commands<cr>", { desc = "Command palette" })
 
+-- 程式碼導航與 LSP（Zed 風格，見 zedkeys.lua）
+require("zedkeys").setup()
+
 -- 專注模式
 map("n", "<leader>z", "<cmd>ZenMode<cr>", { desc = "Zen mode" })
 

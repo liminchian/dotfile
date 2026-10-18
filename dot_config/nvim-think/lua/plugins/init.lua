@@ -1,5 +1,5 @@
 -- 位置：~/.config/nvim-think/lua/plugins/init.lua
--- think 模式：刻意不載入任何 AI plugin
+-- think 模式：AI 只在右側面板（Claude Code / Copilot，見 agents.lua）
 
 return {
   {
@@ -50,6 +50,18 @@ return {
       window = { width = 100 },
     },
   },
+
+  -- Claude Code 面板（右側，snacks.terminal）
+  -- 注意：環境中不要設定 ANTHROPIC_API_KEY，否則會改用 API 計費
+  {
+    "coder/claudecode.nvim",
+    cmd = { "ClaudeCode", "ClaudeCodeFocus", "ClaudeCodeAdd", "ClaudeCodeSend", "ClaudeCodeDiffAccept", "ClaudeCodeDiffDeny" },
+    dependencies = { "folke/snacks.nvim" },
+    opts = { terminal = { split_side = "right", split_width_percentage = 0.38 } },
+  },
+
+  -- Copilot CLI 面板也用 snacks.terminal（見 agents.lua）
+  { "folke/snacks.nvim" },
 
   -- 依目錄存/還原 session（開過的檔案、視窗配置）
   {

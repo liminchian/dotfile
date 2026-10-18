@@ -16,6 +16,9 @@ require("zedkeys").setup()
 -- terminal / agent 面板：連按兩次 Ctrl+h/j/k/l 跳出並換視窗（見 termnav.lua）
 require("termnav").setup()
 
+-- AI：右側 Claude Code / Copilot 面板，<leader>a（見 agents.lua）
+require("agents").setup()
+
 -- 專注模式
 map("n", "<leader>z", "<cmd>ZenMode<cr>", { desc = "Zen mode" })
 

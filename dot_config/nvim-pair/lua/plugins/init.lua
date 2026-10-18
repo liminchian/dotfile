@@ -23,7 +23,7 @@ return {
     opts = { terminal = { provider = "none" } },
   },
 
-  -- herdr 面板用 snacks.terminal 開在右側（見 agents.lua）
+  -- herdr 用 snacks.terminal 開在主視窗（見 agents.lua）
   { "folke/snacks.nvim" },
 
   -- 依目錄存/還原 session（開過的檔案、視窗配置）

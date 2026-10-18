@@ -28,6 +28,15 @@ require("lazy").setup({
 dofile(vim.g.base46_cache .. "defaults")
 dofile(vim.g.base46_cache .. "statusline")
 
+-- terminal_color_0..15 跟著 base46 主題（snacks terminal 不會自己載入；換主題時 base46 也不重載 term）
+dofile(vim.g.base46_cache .. "term")
+vim.api.nvim_create_autocmd("User", {
+  pattern = "NvThemeReload",
+  callback = function()
+    dofile(vim.g.base46_cache .. "term")
+  end,
+})
+
 require "options"
 require "autocmds"
 require "neovide"

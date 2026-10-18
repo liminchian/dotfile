@@ -9,3 +9,6 @@ o.relativenumber = true
 o.signcolumn = "yes"
 
 vim.lsp.inlay_hint.enable(true)
+
+-- herdr 每次啟動都會重開，session 不存 terminal buffer
+o.sessionoptions:remove "terminal"

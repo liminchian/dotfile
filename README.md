@@ -39,8 +39,8 @@ dot_local/bin/scripts/   # 啟動器、鎖屏、音量、桌布等腳本
 透過 `NVIM_APPNAME` 分離設定，於 `fish/config.fish` 定義別名：
 
 ```fish
-think  # NVIM_APPNAME=nvim-think neovide
-pair   # alacritty --class pair -e herdr（agent 工作區）
+think  # NVIM_APPNAME=nvim-think neovide（右側 Claude Code / Copilot 面板）
+pair   # NVIM_APPNAME=nvim-pair neovide（一進來就是 herdr，agent 工作區）
 ```
 
 ## 安裝

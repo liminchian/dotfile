@@ -41,4 +41,4 @@ if test -f "$AUTO_PATH"
 end
 
 alias think 'NVIM_APPNAME=nvim-think neovide --wayland_app_id=think'
-alias pair  'alacritty --class pair -e herdr'
+alias pair  'NVIM_APPNAME=nvim-pair neovide --wayland_app_id=pair'

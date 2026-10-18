@@ -12,20 +12,10 @@ M.base46 = {
   -- rust-analyzer 等 LSP 的語意色彩（namespace/struct/macro… 各自分色）
   integrations = { "semantic_tokens" },
 
-  -- 粗細分層：關鍵字/巨集粗體、參數斜體、註解斜體
+  -- 不用粗體，只留斜體做輕量區分：參數、註解
   hl_override = {
     Comment = { italic = true },
     ["@comment"] = { italic = true },
-    Include = { bold = true },
-    ["@keyword"] = { bold = true },
-    ["@keyword.function"] = { bold = true },
-    ["@keyword.return"] = { bold = true },
-    ["@keyword.conditional"] = { bold = true },
-    ["@keyword.repeat"] = { bold = true },
-    ["@keyword.storage"] = { bold = true },
-    ["@keyword.exception"] = { bold = true },
-    ["@function.macro"] = { bold = true },
-    ["@lsp.type.macro"] = { bold = true },
     ["@variable.parameter"] = { italic = true },
     ["@lsp.type.parameter"] = { italic = true },
     -- namespace 原本跟參數、屬性同為紅色，改成青色
@@ -36,8 +26,6 @@ M.base46 = {
 
   -- semantic_tokens 沒定義的群組只能用 hl_add
   hl_add = {
-    ["@lsp.typemod.function.declaration"] = { bold = true },
-    ["@lsp.typemod.method.declaration"] = { bold = true },
     ["@lsp.mod.mutable"] = { underline = true }, -- Rust 的 mut 變數加底線
   },
 }

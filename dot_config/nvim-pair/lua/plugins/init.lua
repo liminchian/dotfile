@@ -14,39 +14,17 @@ return {
     end,
   },
 
-  -- Claude Code 整合：使用 Claude Pro 訂閱登入，不需要 API key
-  -- 前置：安裝 claude CLI 並執行一次 `claude` 登入 Pro 帳號
+  -- Claude Code 整合：只當 IDE 橋接（diff、送檔案/選取），Claude 本體跑在 herdr 的 pane 裡
+  -- 在 herdr 裡執行 `claude --ide` 就會連回這個 Neovim
   -- 注意：環境中不要設定 ANTHROPIC_API_KEY，否則會改用 API 計費
   {
     "coder/claudecode.nvim",
-    dependencies = { "folke/snacks.nvim" },
-    cmd = {
-      "ClaudeCode",
-      "ClaudeCodeFocus",
-      "ClaudeCodeSend",
-      "ClaudeCodeAdd",
-      "ClaudeCodeDiffAccept",
-      "ClaudeCodeDiffDeny",
-    },
-    opts = {
-      terminal = {
-        split_side = "right",
-        split_width_percentage = 0.38,
-      },
-    },
+    lazy = false, -- 要先啟動 server，herdr 裡的 claude 才連得到
+    opts = { terminal = { provider = "none" } },
   },
 
-  -- GitHub Copilot CLI 當作第二個 agent，用 snacks.terminal 開在右側
-  -- 前置：npm install -g @github/copilot，然後在 copilot 裡執行 /login
-  -- 刻意不裝 copilot.lua：不要 inline completion
-  {
-    "folke/snacks.nvim",
-    opts = {
-      terminal = {
-        win = { position = "right", width = 0.38 },
-      },
-    },
-  },
+  -- herdr 面板用 snacks.terminal 開在右側（見 agents.lua）
+  { "folke/snacks.nvim" },
 
   -- 依目錄存/還原 session（開過的檔案、視窗配置）
   {

@@ -27,6 +27,7 @@ require("lazy").setup({
 -- 載入主題
 dofile(vim.g.base46_cache .. "defaults")
 dofile(vim.g.base46_cache .. "statusline")
+dofile(vim.g.base46_cache .. "semantic_tokens")
 
 -- terminal_color_0..15 跟著 base46 主題（snacks terminal 不會自己載入；換主題時 base46 也不重載 term）
 dofile(vim.g.base46_cache .. "term")

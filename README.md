@@ -40,7 +40,7 @@ dot_local/bin/scripts/   # 啟動器、鎖屏、音量、桌布等腳本
 
 ```fish
 think  # NVIM_APPNAME=nvim-think neovide
-pair   # NVIM_APPNAME=nvim-pair  neovide
+pair   # alacritty --class pair -e herdr（agent 工作區）
 ```
 
 ## 安裝

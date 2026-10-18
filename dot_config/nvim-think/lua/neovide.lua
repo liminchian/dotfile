@@ -19,9 +19,8 @@ vim.g.neovide_padding_right = 20
 -- 渲染：144Hz 螢幕
 vim.g.neovide_refresh_rate = 144
 vim.g.neovide_refresh_rate_idle = 5
--- contrast 調高讓筆畫變粗、粗體與一般字重差異更明顯（預設 0.0 / 0.5）
-vim.g.neovide_text_gamma = 0.0
-vim.g.neovide_text_contrast = 0.5
+vim.g.neovide_text_gamma = 0.8
+vim.g.neovide_text_contrast = 0.1
 
 -- 動畫：短而俐落，不拖尾
 vim.g.neovide_scroll_animation_length = 0.15

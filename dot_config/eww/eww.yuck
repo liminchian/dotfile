@@ -1,6 +1,6 @@
-;; 資料來源：gtasks daemon 常駐，清單有變動就輸出一行 JSON
+;; 資料來源：uatu tasks daemon 常駐，清單有變動就輸出一行 JSON
 (deflisten tasks :initial "[]"
-  `$HOME/.local/bin/gtasks daemon`)
+  `$HOME/.local/bin/uatu tasks daemon`)
 
 (defpoll day     :interval "10m" `date +%-d`)
 (defpoll month   :interval "10m" `date +%B`)
@@ -34,7 +34,7 @@
           :text "沒有待辦事項")
         (for t in tasks
           (eventbox :class "task-row" :cursor "pointer" :timeout "5s"
-            :onclick "$HOME/.local/bin/gtasks done ${t.id}"
+            :onclick "$HOME/.local/bin/uatu tasks done ${t.id}"
             (box :orientation "h" :space-evenly false
               (box :class "check ${t.overdue ? 'overdue' : ''}" :valign "center" :halign "center"
                 (label :class "check-mark" :text "✓"))
@@ -49,4 +49,4 @@
     (box :class "add-row" :orientation "h" :space-evenly false
       (label :class "add-plus" :text "+")
       (input :class "add-input" :hexpand true :value newtask :timeout "5s"
-        :onaccept "printf '%s' '{}' | $HOME/.local/bin/gtasks add -; eww update newtask=' '; eww update newtask=''"))))
+        :onaccept "printf '%s' '{}' | $HOME/.local/bin/uatu tasks add -; eww update newtask=' '; eww update newtask=''"))))

@@ -161,7 +161,7 @@ spawn-at-startup "wlsunset"
 spawn-at-startup "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
 spawn-at-startup "mako"
 spawn-at-startup "udiskie"
-spawn-at-startup "sleep" "2" "&&" "fcitx5" "-rd"
+spawn-sh-at-startup "sleep 2 && fcitx5 -rd"
 spawn-at-startup "swayosd-server"
 spawn-at-startup "awww-daemon"
 spawn-at-startup "wl-paste" "--watch" "clapboard" "store"
@@ -169,6 +169,7 @@ spawn-at-startup "blur-wallpaper"
 spawn-at-startup "pomobar"
 spawn-at-startup "elephant"
 spawn-at-startup "walker" "--gapplication-service"
+spawn-at-startup "eww" "open" "todo"
 
 cursor {
     // Change the theme and size of the cursor as well as set the

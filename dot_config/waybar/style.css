@@ -134,3 +134,9 @@ window#waybar.empty #window {
 #custom-headset.charging     { color: #a6e3a1; }
 #custom-headset.critical     { color: #f38ba8; }
 #custom-headset.disconnected { opacity: 0.4; }
+
+#custom-mem     { padding: 0 6px; }
+#custom-mem.p30 { color: @teal; }
+#custom-mem.p50 { color: @yellow; }
+#custom-mem.p70 { color: @peach; }
+#custom-mem.p90 { color: @red; }

@@ -166,10 +166,8 @@ spawn-at-startup "swayosd-server"
 spawn-at-startup "awww-daemon"
 spawn-at-startup "wl-paste" "--watch" "clapboard" "store"
 spawn-at-startup "blur-wallpaper"
-spawn-at-startup "pomobar"
 spawn-at-startup "elephant"
 spawn-at-startup "walker" "--gapplication-service"
-spawn-at-startup "eww" "open" "todo"
 
 cursor {
     // Change the theme and size of the cursor as well as set the

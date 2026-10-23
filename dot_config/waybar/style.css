@@ -125,10 +125,9 @@ window#waybar.empty #window {
     border: 0px none;
 }
 
-#custom-pomobar {
-  padding: 0 8px 0 8px;
-  border-radius: 99px;
-}
+#custom-tasks         { padding: 0 8px; }
+#custom-tasks.today   { color: @yellow; }
+#custom-tasks.overdue { color: @red; }
 
 #custom-headset              { padding: 0 8px; }
 #custom-headset.charging     { color: #a6e3a1; }

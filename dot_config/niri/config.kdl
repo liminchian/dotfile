@@ -168,6 +168,7 @@ spawn-at-startup "wl-paste" "--watch" "clapboard" "store"
 spawn-at-startup "blur-wallpaper"
 spawn-at-startup "elephant"
 spawn-at-startup "walker" "--gapplication-service"
+spawn-at-startup "codebase-memory-mcp" "daemon" "start"
 
 cursor {
     // Change the theme and size of the cursor as well as set the

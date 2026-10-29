@@ -10,13 +10,15 @@ vram_pct() { nvidia-smi --query-gpu=memory.used,memory.total --format=csv,nohead
 
 # 輸出「MiB 名稱」；同名行程合併計算（瀏覽器會開很多個）
 ram_top() {
-    ps -eo rss=,comm= | awk '{r=$1; sub(/^ *[0-9]+ /, ""); s[$0]+=r} END{for(n in s) print int(s[n]/1024), n}' |
-        sort -nr | head -1
+    # 最大值直接在 awk 算；`sort | head -1` 會讓 sort 寫進已關閉的管線而報 broken pipe
+    ps -eo rss=,comm= | awk '{r=$1; sub(/^ *[0-9]+ /, ""); s[$0]+=r}
+        END{for(n in s) if(s[n] > m){m=s[n]; top=n} if(top != "") print int(m/1024), top}'
 }
 # compute-apps 不含圖形行程，所以解析 nvidia-smi 的行程表；名稱改從 /proc 取，避免被截斷的路徑
 vram_top() {
-    nvidia-smi 2>/dev/null | awk '$5 ~ /^[0-9]+$/ && $(NF-1) ~ /MiB$/ {print $(NF-1)+0, $5, $(NF-2)}' |
-        sort -nr | head -1 | {
+    nvidia-smi 2>/dev/null |
+        awk '$5 ~ /^[0-9]+$/ && $(NF-1) ~ /MiB$/ && $(NF-1)+0 > m {m=$(NF-1)+0; pid=$5; name=$(NF-2)}
+             END{if(pid) print m, pid, name}' | {
             read -r mib pid name || exit
             echo "$mib $(cat /proc/"$pid"/comm 2>/dev/null || echo "${name##*/}")"
         }

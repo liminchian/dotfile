@@ -1,0 +1,6 @@
+[Unit]
+Description=磁碟達 80% 時以 laya 建議可刪的檔案系列並寫入 Google Tasks
+
+[Service]
+Type=oneshot
+ExecStart=%h/.local/bin/disk-cleanup

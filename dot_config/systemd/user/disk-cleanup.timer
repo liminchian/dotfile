@@ -1,0 +1,9 @@
+[Unit]
+Description=每天檢查一次磁碟用量
+
+[Timer]
+OnCalendar=daily
+Persistent=true
+
+[Install]
+WantedBy=timers.target

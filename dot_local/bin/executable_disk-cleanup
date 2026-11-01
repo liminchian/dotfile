@@ -17,6 +17,7 @@ LAYA = "http://localhost:8001/v1/systemone/batch"
 MIN_FILE = 1 << 20      # 小於 1 MiB 的檔案不算
 TOP_SERIES = 30
 GTASKS = Path.home() / ".config/gtasks"
+TASKS = "https://tasks.googleapis.com/tasks/v1/lists/@default/tasks"
 
 QUESTIONS = {"act": {
     "type": "choice",
@@ -129,6 +130,10 @@ def main():
     if "--dry-run" in sys.argv or not picks:
         return
     auth = {"Authorization": f"Bearer {gtasks_token()}", "Content-Type": "application/json"}
+    # 每天排程都會跑：還沒完成的任務裡已有同一個目錄就略過，避免重複
+    # ponytail: 只看前 100 筆未完成任務，清單更長再加分頁
+    open_titles = [t["title"] for t in post(f"{TASKS}?showCompleted=false&maxResults=100", None, auth).get("items", [])]
+    picks = [p for p in picks if not any(f"] ~/{p[0]}  " in t for t in open_titles)]
     label = {"delete": "刪除", "review": "檢查"}
     for group, s, a in picks:
         samples = "\n".join(p.replace(str(home), "~") for _, p, _ in s["files"][:5])
@@ -136,7 +141,7 @@ def main():
             "title": f"[{label[a['choice']]}] ~/{group}  {human(s['size'])}",
             "notes": f"磁碟 {pct}%｜laya 信心 {a['answer_confidence']:.2f}｜{len(s['files'])} 個檔案\n{samples}",
         }
-        post("https://tasks.googleapis.com/tasks/v1/lists/@default/tasks", json.dumps(task).encode(), auth)
+        post(TASKS, json.dumps(task).encode(), auth)
     print(f"已寫入 {len(picks)} 筆 Google Tasks")
 
 

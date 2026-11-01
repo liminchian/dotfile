@@ -1,7 +1,7 @@
 [
   {
     "height": 20, // Waybar height (to be removed for auto height)
-    "modules-left": ["niri/workspaces", "custom/tasks"],
+    "modules-left": ["niri/workspaces", "custom/mood"],
     "modules-center": ["niri/window"],
     "modules-right": [
       "wireplumber",
@@ -79,12 +79,12 @@
       "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
       "on-click-right": "alacritty -e pw-top --class pw-top"
     },
-    "custom/tasks": {
-      "exec": "$HOME/.config/waybar/scripts/tasks.sh",
+    "custom/mood": {
+      "exec": "$HOME/.config/waybar/scripts/mood.py",
       "return-type": "json",
       "escape": true,
       "restart-interval": 30,
-      "on-click": "xdg-open https://tasks.google.com/"
+      "on-click": "xdg-open http://127.0.0.1:7878/"
     }
   }
 ]

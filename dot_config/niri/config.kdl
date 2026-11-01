@@ -169,6 +169,8 @@ spawn-at-startup "blur-wallpaper"
 spawn-at-startup "elephant"
 spawn-at-startup "walker" "--gapplication-service"
 spawn-at-startup "codebase-memory-mcp" "daemon" "start"
+// 只取 .env 的金鑰：那份 .env 其餘是開發設定，cwd 又是 $HOME，uatu 自己讀不到；沒金鑰 mood 會停用
+spawn-sh-at-startup "OPENROUTER_API_KEY=$(sed -n 's/^OPENROUTER_API_KEY=//p' ~/Program/uatu/.env) uatu watch"
 
 cursor {
     // Change the theme and size of the cursor as well as set the

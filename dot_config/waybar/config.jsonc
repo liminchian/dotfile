@@ -60,8 +60,9 @@
     },
     "disk": {
       "format": " 󰋊  {percentage_used}%",
-      "tooltip-format": "{used} used out of {total} on {path}",
-      "unit": "GB"
+      "tooltip-format": "{used} used out of {total} on {path}\n單擊：一次性釋放空間",
+      "unit": "GB",
+      "on-click": "~/.local/bin/disk-free"
     },
     "tray": {
       "icon-size": 14,

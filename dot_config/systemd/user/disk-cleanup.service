@@ -1,6 +1,7 @@
 [Unit]
-Description=磁碟達 80% 時以 laya 建議可刪的檔案系列並寫入 Google Tasks
+Description=磁碟達 80% 時以 laya 建議可刪的檔案系列寫入 Google Tasks，並以 qwen 產生清理計畫
 
 [Service]
 Type=oneshot
-ExecStart=%h/.local/bin/disk-cleanup
+ExecStart=-%h/.local/bin/disk-cleanup
+ExecStart=%h/.local/bin/disk-plan

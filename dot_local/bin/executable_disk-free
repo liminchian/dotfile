@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+# disk-free — 一次性釋放空間：只跑可重新產生、免 root 的清理。waybar 磁碟模組單擊觸發。
+# ponytail: 清單寫死不經 qwen，要評估更多項目用 disk-plan
+free_gb() { df --output=avail -BG / | tail -1 | tr -dc 0-9; }
+before=$(free_gb)
+notify-send "磁碟清理" "開始釋放空間…"
+
+steps=(
+  'rm -rf ~/.local/share/Trash/files ~/.local/share/Trash/info'
+  'uv cache clean'
+  'npm cache clean --force'
+  'pnpm store prune'
+  'docker builder prune -f'
+  'docker image prune -f'
+)
+for s in "${steps[@]}"; do
+  command -v "${s%% *}" >/dev/null || continue
+  bash -c "$s" >/dev/null 2>&1 || echo "失敗，略過：$s" >&2
+done
+
+notify-send "磁碟清理完成" "釋放 $(( $(free_gb) - before ))G，剩餘 $(free_gb)G"

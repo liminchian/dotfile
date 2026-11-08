@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+# disk-plan — 根目錄用量 ≥ 80% 時，收集佔空間的來源交給本地 qwen (:8080)，
+# 產生一份「可審核」的清理腳本；不會自動執行。
+#
+# 用法：disk-plan            用量 < 80% 直接結束
+#       disk-plan --force    不管用量都跑
+# 產出：~/.local/state/disk-plan/plan-<日期>.sh，看過後再 `bash` 它
+set -euo pipefail
+
+THRESHOLD=80
+QWEN=http://localhost:8080/v1/chat/completions
+OUT_DIR=~/.local/state/disk-plan
+
+pct=$(df --output=pcent / | tail -1 | tr -dc 0-9)
+if (( pct < THRESHOLD )) && [[ ${1:-} != --force ]]; then
+  echo "磁碟用量 ${pct}% < ${THRESHOLD}%，不需清理"; exit 0
+fi
+
+# 每個指令失敗都略過，只是少一段資訊
+report=$(
+  echo "## df /";                     df -h /
+  echo "## du ~ (depth 1)";           du -xhd1 ~ 2>/dev/null | sort -h | tail -15
+  echo "## du ~/.cache ~/.local/share"; du -xhd1 ~/.cache ~/.local/share 2>/dev/null | sort -h | tail -20
+  echo "## du ~/Program (depth 2)";   du -xhd2 ~/Program 2>/dev/null | sort -h | tail -15
+  echo "## docker system df";         docker system df 2>&1 || true
+  echo "## pacman cache";             du -sh /var/cache/pacman/pkg 2>&1; paccache -d 2>&1 | tail -1 || true
+  echo "## orphan packages";          pacman -Qdtq 2>&1 | head -30 || true
+  echo "## journal";                  journalctl --disk-usage 2>&1 || true
+  echo "## flatpak unused";           flatpak uninstall --unused --noninteractive --assumeno 2>&1 | head -15 || true
+)
+
+prompt="以下是一台 Arch Linux 桌機（使用者 $USER）的磁碟用量報告，根目錄已用 ${pct}%。
+請評估可以清理哪些資源，輸出一個 bash 腳本，規則：
+- 只輸出一個 \`\`\`bash 程式碼區塊，不要其他文字。
+- 每個清理動作上一行用註解寫：預估釋放空間、風險（低/中/高）、理由。
+- 只有「可重新產生」的低風險項目（套件管理器快取、docker 懸空映像與 build cache、journal vacuum、垃圾桶、paccache）保持啟用。
+- 中、高風險項目（模型、個人檔案、專案目錄、docker volume、遊戲）一律整行註解掉，讓使用者自己決定。
+- 優先用工具自帶的清理指令（uv cache clean、npm cache clean --force、pnpm store prune、cargo cache、docker builder prune -f、paccache -rk1、journalctl --vacuum-size=200M、paru -Sc --noconfirm），指令都要能非互動執行，不要 rm -rf 家目錄以外的路徑。
+- 需要 root 的指令加 sudo。
+
+$report"
+
+mkdir -p "$OUT_DIR"
+plan="$OUT_DIR/plan-$(date +%F).sh"
+jq -n --arg p "$prompt" '{messages:[{role:"user",content:$p}], temperature:0.2,
+       chat_template_kwargs:{enable_thinking:false}}' |
+  curl -sf --max-time 600 "$QWEN" -H 'Content-Type: application/json' -d @- |
+  jq -r '.choices[0].message.content' |
+  sed -n '/^```/,/^```/{/^```/d;p}' |
+  # 不信任 LLM 守規則：會丟資料的啟用行一律強制註解（垃圾桶除外）
+  sed -E '/^[[:space:]]*#/b; /Trash/b; /volume|system prune|rm[[:space:]]|--all|-a[[:space:]]/s/^/# [disk-plan 強制停用] /' > "$plan"
+
+[[ -s $plan ]] || { echo "qwen 沒有回傳腳本" >&2; exit 1; }
+chmod +x "$plan"
+echo "清理計畫：$plan"
+cat "$plan"
+notify-send "磁碟 ${pct}%" "qwen 清理計畫已產生：$plan" 2>/dev/null || true

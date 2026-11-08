@@ -25,6 +25,8 @@ return {
   -- Zed 式浮動 command palette
   {
     "folke/noice.nvim",
+    -- Neovide 自己畫 cmdline / messages（ext_cmdline、ext_messages），noice 在裡面無法運作
+    cond = not vim.g.neovide,
     event = "VeryLazy",
     dependencies = { "MunifTanjim/nui.nvim" },
     opts = {

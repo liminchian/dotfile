@@ -10,6 +10,10 @@ end
 vim.o.guifont = "VictorMono Nerd Font:h12"
 vim.opt.linespace = 4
 
+-- options.lua 的 cmdheight = 0 是給 noice 用的，但 Neovide 裡不載入 noice。
+-- 0 會讓 statusline 成為最後一列，Neovide 把它的底色延伸到下方空白，圓角膠囊下多出方塊
+vim.o.cmdheight = 1
+
 -- 內距：解決文字貼邊框的問題
 vim.g.neovide_padding_top = 16
 vim.g.neovide_padding_bottom = 12

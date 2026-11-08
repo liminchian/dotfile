@@ -7,7 +7,7 @@ import json, os, socket, sys
 def render(line):
     status = json.loads(line)
     scores = sorted(status.get("scores", {}).items(), key=lambda kv: -kv[1])
-    return {"text": status["text"], "tooltip": "\n".join(f"{k}  {v:.0%}" for k, v in scores)}
+    return {"text": status["text"].split()[0], "tooltip": "\n".join(f"{k}  {v:.0%}" for k, v in scores)}
 
 
 def main():
@@ -26,6 +26,6 @@ def main():
 
 if __name__ == "__main__":
     assert render('{"text":"💻 80%","key":"coding","confidence":0.8,"scores":{"idle":0.2,"coding":0.8}}') == {
-        "text": "💻 80%", "tooltip": "coding  80%\nidle  20%"}
+        "text": "💻", "tooltip": "coding  80%\nidle  20%"}
     assert render('{"text":"❔"}') == {"text": "❔", "tooltip": ""}  # 第一次判斷完成前沒有 scores
     main()
